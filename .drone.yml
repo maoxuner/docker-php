@@ -1,0 +1,60 @@
+kind: pipeline
+name: default
+
+steps:
+- name: build 7.2-fpm
+  image: plugins/docker
+  settings:
+    username: maoxuner
+    password:
+      from_secret: docker_password
+    context: fpm
+    dockerfile: fpm/Dockerfile
+    repo: maoxuner/php
+    tags: 7.2-fpm-alpine
+- name: build 7.2-fpm-supervisor
+  image: plugins/docker
+  settings:
+    username: maoxuner
+    password:
+      from_secret: docker_password
+    context: supervisor
+    dockerfile: supervisor/Dockerfile
+    repo: maoxuner/php
+    tags: 7.2-fpm-supervisor-alpine
+- name: build 7.2-apache
+  image: plugins/docker
+  settings:
+    username: maoxuner
+    password:
+      from_secret: docker_password
+    context: apache
+    dockerfile: apache/Dockerfile
+    repo: maoxuner/php
+    tags: 7.2-apache
+- name: prepare 5.6-apache
+  image: bash
+  commands:
+    - sed -i 's/7.2-apache/5.6-apache/g' apache/Dockerfile
+- name: build 5.6-apache
+  image: plugins/docker
+  settings:
+    username: maoxuner
+    password:
+      from_secret: docker_password
+    context: apache
+    dockerfile: apache/Dockerfile
+    repo: maoxuner/php
+    tags: 5.6-apache
+- name: notify
+  image: lddsb/drone-dingtalk-message
+  settings:
+    access_token:
+      from_secret: dingtalk_token
+    lang: zh_CN
+    msg_type: text
+    msg_at_all: false
+  when:
+    status:
+    - success
+    - failure
