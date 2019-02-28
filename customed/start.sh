@@ -13,7 +13,7 @@ copy_config()
         cp "${source}" ${target}/
     fi
     if [ -d "${source}" ]; then
-        cp -rf "${source}"/* ${target}/
+        cp -a "${source}"/. ${target}/
     fi
 }
 
