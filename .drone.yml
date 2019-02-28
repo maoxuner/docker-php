@@ -1,6 +1,10 @@
 kind: pipeline
 name: default
 
+clone:
+  depth: 1
+  skip_verify: true
+
 steps:
   - name: 7.3-cli-alpine
     image: plugins/docker
