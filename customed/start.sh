@@ -7,14 +7,21 @@ copy_config()
     source="${1}"
     target="${2}"
 
+    # 删除旧的文件
     rm -rf ${target}/*
 
+    # 复制文件或目录
     if [ -f "${source}" ]; then
         cp "${source}" ${target}/
     fi
     if [ -d "${source}" ]; then
         cp -a "${source}"/. ${target}/
     fi
+
+    # 修复文件或目录权限
+    find ${target} -type d -exec chmod 755 {} \;
+    find ${target} -type f -exec chmod 644 {} \;
+    chown -R root:root ${target}
 }
 
 # 启动supervisor
