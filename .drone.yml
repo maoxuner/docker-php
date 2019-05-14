@@ -52,7 +52,7 @@ steps:
       dockerfile: composer/Dockerfile
       build_args:
         - PHP_TAG=7.3-cli-alpine
-        - INSTALLER_VERSION=1.8.4
+        - COMPOSER_VERSION=1.8.5
         - INSTALLER_COMMIT=cb19f2aa3aeaa2006c0cd69a7ef011eb31463067
         - INSTALLER_HASH=48e3236262b34d30969dca3c37281b3b4bbe3221bda826ac6a9a62d6444cdb0dcd0615698a5cbe587c3f0fe57a54d8f5
       tags: 7.3-composer
