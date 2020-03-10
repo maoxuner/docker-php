@@ -10,6 +10,7 @@ steps:
     image: plugins/docker
     settings:
       context: php-fpm
+      dockerfile: php-fpm/Dockerfile
       build_args:
         - PHP_TAG=fpm-alpine
       tags: latest
