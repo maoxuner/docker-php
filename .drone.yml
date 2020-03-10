@@ -1,0 +1,32 @@
+kind: pipeline
+name: default
+
+clone:
+  depth: 1
+  skip_verify: true
+
+steps:
+  - name: php-fpm
+    image: plugins/docker
+    settings:
+      context: php-fpm
+      build_args:
+        - PHP_TAG=fpm-alpine
+      tags: latest
+      repo: maoxuner/php
+      username: maoxuner
+      password:
+        from_secret: docker_password
+
+  - name: notify
+    image: lddsb/drone-dingtalk-message
+    settings:
+      access_token:
+        from_secret: dingtalk_token
+      lang: zh_CN
+      msg_type: markdown
+      msg_at_all: ture
+    when:
+      status:
+        - success
+        - failure
