@@ -97,6 +97,8 @@ case $cmd in
             rm -rf *
         fi
         cd - > /dev/null
+
+        service_configure_reload $svc
     ;;
     list)
         if [[ -d $source_path ]]; then
