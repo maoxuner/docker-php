@@ -83,6 +83,8 @@ case $cmd in
         fi
         cd - > /dev/null
 
+        chown -R root:root $target_path/
+
         if [[ $cmd = "reload" ]]; then
             service_configure_reload $svc
         fi
