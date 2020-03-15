@@ -2,9 +2,6 @@ kind: pipeline
 type: kubernetes
 name: default
 
-metadata:
-  namespace: applications
-
 clone:
   depth: 1
   skip_verify: true
