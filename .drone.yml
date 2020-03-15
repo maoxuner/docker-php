@@ -24,7 +24,7 @@ steps:
     image: lddsb/drone-dingtalk-message
     settings:
       access_token:
-        from_secret: dingtalk_token
+        from_secret: dingtalk-token
       lang: zh_CN
       msg_type: markdown
       msg_at_all: ture
