@@ -1,6 +1,7 @@
 kind: pipeline
 type: kubernetes
 name: default
+namespace: applications
 
 clone:
   depth: 1
