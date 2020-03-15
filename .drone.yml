@@ -36,7 +36,6 @@ steps:
 ---
 
 kind: secret
-type: kubernetes
 name: docker-password
 get:
   path: drone-secret
@@ -45,7 +44,6 @@ get:
 ---
 
 kind: secret
-type: kubernetes
 name: dingtalk-token
 get:
   path: drone-secret
