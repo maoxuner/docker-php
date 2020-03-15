@@ -39,8 +39,8 @@ kind: secret
 type: kubernetes
 name: docker-password
 get:
-  name: drone-secret
-  path: docker_passworld
+  path: drone-secret
+  name: docker_passworld
 
 ---
 
@@ -48,5 +48,5 @@ kind: secret
 type: kubernetes
 name: dingtalk-token
 get:
-  name: drone-secret
-  path: dingtalk_token
+  path: drone-secret
+  name: dingtalk_token
