@@ -7,18 +7,18 @@ clone:
   skip_verify: true
 
 steps:
-#  - name: php-fpm
-#    image: plugins/docker
-#    settings:
-#      context: php-fpm
-#      dockerfile: php-fpm/Dockerfile
-#      build_args:
-#        - PHP_TAG=fpm-alpine
-#      tags: latest
-#      repo: maoxuner/php
-#      username: maoxuner
-#      password:
-#        from_secret: docker-password
+  - name: php-fpm
+    image: plugins/docker
+    settings:
+      context: php-fpm
+      dockerfile: php-fpm/Dockerfile
+      build_args:
+        - PHP_TAG=fpm-alpine
+      tags: latest
+      repo: maoxuner/php
+      username: maoxuner
+      password:
+        from_secret: docker-password
 
   - name: notify
     image: lddsb/drone-dingtalk-message
