@@ -2,7 +2,7 @@ ARG PHP_TAG=fpm-alpine
 
 FROM php:${PHP_TAG}
 
-# RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/' /etc/apk/repositories
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/' /etc/apk/repositories
 
 RUN set -ex; \
     apk add --no-cache \
