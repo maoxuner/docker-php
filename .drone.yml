@@ -18,13 +18,13 @@ steps:
       repo: maoxuner/php
       username: maoxuner
       password:
-        from_secret: docker_password
+        from_secret: docker-password
 
   - name: notify
     image: lddsb/drone-dingtalk-message
     settings:
       access_token:
-        from_secret: dingtalk_token
+        from_secret: dingtalk-token
       lang: zh_CN
       msg_type: markdown
       msg_at_all: ture
@@ -32,3 +32,19 @@ steps:
       status:
         - success
         - failure
+
+---
+
+kind: secret
+name: docker-password
+get:
+  name: drone-secret
+  path: docker_passworld
+
+---
+
+kind: secret
+name: dingtalk-token
+get:
+  name: drone-secret
+  path: dingtalk_token
