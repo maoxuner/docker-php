@@ -25,18 +25,33 @@ steps:
   - name: notify
     image: lddsb/drone-dingtalk-message
     settings:
-      access_token:
-        from_secret: dingtalk-token
+      success_token:
+        from_secret: dingtalk-success-token
+      success_secret:
+        from_secret: dingtalk-success-secret
+      failure_token:
+        from_secret: dingtalk-failure-token
+      failure_secret:
+        from_secret: dingtalk-failure-secret
       lang: zh_CN
       msg_type: markdown
-      msg_at_all: ture
+      msg_at_all: false
+    commands:
+      - |
+        if [ $DRONE_BUILD_STATUS = "success" ]; then
+            export PLUGIN_TOKEN=$PLUGIN_SUCCESS_TOKEN
+            export PLUGIN_SECRET=$PLUGIN_SUCCESS_SECRET
+        else
+            export PLUGIN_TOKEN=$PLUGIN_FAILURE_TOKEN
+            export PLUGIN_SECRET=$PLUGIN_FAILURE_SECRET
+        fi
+      - /bin/drone-dingtalk
     when:
       status:
         - success
         - failure
 
 ---
-
 kind: secret
 name: docker-password
 get:
@@ -44,9 +59,29 @@ get:
   name: docker_passworld
 
 ---
-
 kind: secret
-name: dingtalk-token
+name: dingtalk-success-token
 get:
   path: drone-secret
-  name: dingtalk_token
+  name: dingtalk_success_token
+
+---
+kind: secret
+name: dingtalk-success-secret
+get:
+  path: drone-secret
+  name: dingtalk_success_secret
+
+---
+kind: secret
+name: dingtalk-failure-token
+get:
+  path: drone-secret
+  name: dingtalk_failure_token
+
+---
+kind: secret
+name: dingtalk-failure-secret
+get:
+  path: drone-secret
+  name: dingtalk_failure_secret
