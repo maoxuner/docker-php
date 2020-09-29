@@ -17,10 +17,13 @@ RUN set -ex; \
 RUN set -ex; \
     apk add --no-cache \
         --virtual .build-deps \
+        zlib-dev linux-headers \
         autoconf g++ make; \
-    pecl install redis; \
-    docker-php-ext-enable redis; \
-    apk del --purge .build-deps autoconf g++ make; \
+    pecl install redis grpc swoole; \
+    docker-php-ext-enable redis grpc swoole; \
+    apk del --purge .build-deps \
+        zlib-dev linux-headers \
+        autoconf g++ make; \
     apk add --no-cache \
         libzip-dev bzip2-dev \
         libpng-dev libjpeg-turbo-dev freetype-dev; \
