@@ -37,6 +37,14 @@ steps:
       msg_type: markdown
       msg_at_all: false
     commands:
+      - set -e
+      - |
+        # DRONE_BUILD_STATUS always success in Kubernetes
+        # https://discourse.drone.io/t/drone-build-status-always-success-in-kubernetes/6627
+        if [ -f /run/drone/env ]; then
+            grep DRONE_ /run/drone/env > /tmp/env
+            source /tmp/env
+        fi
       - |
         if [ $DRONE_BUILD_STATUS = "success" ]; then
             export PLUGIN_TOKEN=$PLUGIN_SUCCESS_TOKEN
