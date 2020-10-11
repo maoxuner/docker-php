@@ -10,7 +10,7 @@ steps:
   - name: php-fpm
     image: plugins/docker
     settings:
-      mirror: https://dockerhub.azk8s.cn
+      mirror: https://mirror.ccs.tencentyun.com
       mtu: 1450
       context: php-fpm
       dockerfile: php-fpm/Dockerfile
