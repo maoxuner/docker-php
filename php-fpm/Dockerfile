@@ -32,7 +32,8 @@ RUN set -ex; \
         opcache \
         mysqli pdo_mysql \
         zip bz2 \
-        gd sockets
+        gd sockets \
+        intl bcmath
 
 COPY supervisor.ini /etc/supervisor.ini
 
