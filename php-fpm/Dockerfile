@@ -26,7 +26,8 @@ RUN set -ex; \
         autoconf g++ make; \
     apk add --no-cache \
         libzip-dev bzip2-dev \
-        libpng-dev libjpeg-turbo-dev freetype-dev; \
+        libpng-dev libjpeg-turbo-dev freetype-dev \
+        icu-dev; \
     docker-php-ext-configure gd --with-jpeg=/usr/include/ --with-freetype=/usr/include/; \
     docker-php-ext-install -j$(nproc) \
         opcache \
