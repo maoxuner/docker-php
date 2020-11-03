@@ -1,10 +1,10 @@
-# PHP-FPM + NGINX + CROND + SUPERVISOR
-
-[![Build Status](https://drone.fat4.cn/api/badges/maoxuner/docker-php/status.svg?ref=refs/heads/master)](https://drone.fat4.cn/maoxuner/docker-php)
+# PHP-FPM
 
 ## 附加模块
 
 - redis
+- grpc
+- swoole
 - opcache
 - mysqli
 - pdo_mysql
@@ -12,6 +12,8 @@
 - bz2
 - gd
 - sockets
+- intl
+- bcmath
 
 ## 使用示例
 

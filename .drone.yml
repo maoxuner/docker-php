@@ -7,6 +7,23 @@ clone:
   skip_verify: true
 
 steps:
+  - name: php-cli
+    image: plugins/docker
+    settings:
+      mirror: https://mirror.ccs.tencentyun.com
+      mtu: 1450
+      context: php-cli
+      dockerfile: php-cli/Dockerfile
+      build_args:
+        - PHP_TAG=cli-alpine
+      tags:
+        - latest
+        - cli-alpine
+      repo: maoxuner/php
+      username: maoxuner
+      password:
+        from_secret: docker-password
+
   - name: php-fpm
     image: plugins/docker
     settings:
@@ -16,7 +33,7 @@ steps:
       dockerfile: php-fpm/Dockerfile
       build_args:
         - PHP_TAG=fpm-alpine
-      tags: latest
+      tags: fpm-alpine
       repo: maoxuner/php
       username: maoxuner
       password:
