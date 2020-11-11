@@ -15,8 +15,8 @@ RUN set -ex; \
         --virtual .build-deps \
         zlib-dev linux-headers \
         autoconf g++ make; \
-    pecl install redis grpc swoole; \
-    docker-php-ext-enable redis grpc swoole; \
+    pecl install redis grpc swoole inotify; \
+    docker-php-ext-enable redis grpc swoole inotify; \
     apk del --purge .build-deps \
         zlib-dev linux-headers \
         autoconf g++ make; \
