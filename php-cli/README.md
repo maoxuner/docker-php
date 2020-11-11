@@ -5,6 +5,7 @@
 - redis
 - grpc
 - swoole
+- inotify
 - opcache
 - mysqli
 - pdo_mysql
