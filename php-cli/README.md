@@ -1,17 +1,3 @@
 # PHP-CLI
 
-## 附加模块
-
-- redis
-- grpc
-- swoole
-- inotify
-- opcache
-- mysqli
-- pdo_mysql
-- zip
-- bz2
-- gd
-- sockets
-- intl
-- bcmath
+基础镜像：`php:cli-alpine`
