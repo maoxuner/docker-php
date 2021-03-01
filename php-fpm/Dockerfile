@@ -17,10 +17,10 @@ RUN set -ex; \
         gd sockets \
         intl bcmath
 
-ARG REDIS_VERSION=5.3.2
-ARG GRPC_VERSION=1.33.1
-ARG PROTOBUF_VERSION=3.14.0
-ARG SWOOLE_VERSION=4.5.9
+ARG REDIS_VERSION=5.3.3
+ARG GRPC_VERSION=1.35.0
+ARG PROTOBUF_VERSION=3.15.3
+ARG SWOOLE_VERSION=4.6.3
 
 RUN set -ex; \
     apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \
@@ -47,7 +47,7 @@ RUN set -ex; \
     mkdir /usr/src/php/ext/swoole; \
     curl -sfL https://pecl.minio.fat4.cn/swoole/${SWOOLE_VERSION}.tgz | tar -xz --strip-components=1 -C /usr/src/php/ext/swoole; \
     apk add --no-cache openssl-dev pcre-dev pcre2-dev zlib-dev; \
-    docker-php-ext-configure swoole --enable-http2 --enable-mysqlnd --enable-openssl --enable-sockets --enable-swoole-json;\
+    docker-php-ext-configure swoole --enable-http2 --enable-mysqlnd --enable-openssl --enable-sockets --enable-swoole-json; \
     docker-php-ext-install -j$(nproc) swoole; \
 
     docker-php-source delete; \
