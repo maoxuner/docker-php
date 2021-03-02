@@ -1,6 +1,6 @@
 # PHP-FPM
 
-基础镜像：`php:fpm-alpine`
+基础镜像：`php:8.0.2-fpm-alpine`
 
 ## 使用示例
 

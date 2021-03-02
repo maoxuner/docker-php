@@ -18,39 +18,37 @@ RUN set -ex; \
         intl bcmath
 
 ARG REDIS_VERSION=5.3.3
-ARG GRPC_VERSION=1.35.0
+ARG GRPC_VERSION=1.36.0
 ARG PROTOBUF_VERSION=3.15.3
 ARG SWOOLE_VERSION=4.6.3
 
 RUN set -ex; \
     apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \
-    docker-php-source extract; \
 
     # redis
-    mkdir /usr/src/php/ext/redis; \
-    curl -sfL https://pecl.minio.fat4.cn/redis/${REDIS_VERSION}.tgz | tar -xz --strip-components=1 -C /usr/src/php/ext/redis; \
-    docker-php-ext-install -j$(nproc) redis; \
+    mkdir /tmp/redis; \
+    curl -sfL https://pecl.minio.fat4.cn/redis/${REDIS_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/redis; \
+    docker-php-ext-install -j$(nproc) /tmp/redis; \
 
     # grpc
-    mkdir /usr/src/php/ext/grpc; \
-    curl -sfL https://pecl.minio.fat4.cn/grpc/${GRPC_VERSION}.tgz | tar -xz --strip-components=1 -C /usr/src/php/ext/grpc; \
+    mkdir /tmp/grpc; \
+    curl -sfL https://pecl.minio.fat4.cn/grpc/${GRPC_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/grpc; \
     apk add --no-cache linux-headers; \
-    docker-php-ext-install -j$(nproc) grpc; \
+    CPPFLAGS="-Wno-maybe-uninitialized" docker-php-ext-install -j$(nproc) /tmp/grpc; \
     apk del linux-headers; \
 
     # protobuf
-    mkdir /usr/src/php/ext/protobuf; \
-    curl -sfL https://pecl.minio.fat4.cn/protobuf/${PROTOBUF_VERSION}.tgz | tar -xz --strip-components=1 -C /usr/src/php/ext/protobuf; \
-    docker-php-ext-install -j$(nproc) protobuf; \
+    mkdir /tmp/protobuf; \
+    curl -sfL https://pecl.minio.fat4.cn/protobuf/${PROTOBUF_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/protobuf; \
+    docker-php-ext-install -j$(nproc) /tmp/protobuf; \
 
     # swoole
-    mkdir /usr/src/php/ext/swoole; \
-    curl -sfL https://pecl.minio.fat4.cn/swoole/${SWOOLE_VERSION}.tgz | tar -xz --strip-components=1 -C /usr/src/php/ext/swoole; \
+    mkdir /tmp/swoole; \
+    curl -sfL https://pecl.minio.fat4.cn/swoole/${SWOOLE_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/swoole; \
     apk add --no-cache openssl-dev pcre-dev pcre2-dev zlib-dev; \
-    docker-php-ext-configure swoole --enable-http2 --enable-mysqlnd --enable-openssl --enable-sockets --enable-swoole-json; \
-    docker-php-ext-install -j$(nproc) swoole; \
+    docker-php-ext-configure /tmp/swoole --enable-http2 --enable-mysqlnd --enable-openssl --enable-sockets --enable-swoole-json; \
+    docker-php-ext-install -j$(nproc) /tmp/swoole; \
 
-    docker-php-source delete; \
     apk del .build-deps $PHPIZE_DEPS
 
 RUN set -ex; \
