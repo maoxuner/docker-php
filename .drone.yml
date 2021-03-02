@@ -83,7 +83,7 @@ kind: secret
 name: docker-password
 get:
   path: drone-secret
-  name: docker_passworld
+  name: docker_password
 
 ---
 kind: secret
