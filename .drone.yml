@@ -16,11 +16,11 @@ steps:
       context: php-cli
       dockerfile: php-cli/Dockerfile
       build_args:
-        - PHP_TAG=8.0.2-cli-alpine
+        - PHP_TAG=8.0.12-cli-alpine
       tags:
         - latest
         - cli-alpine
-        - 8.0.2-cli-alpine
+        - 8.0.12-cli-alpine
       repo: maoxuner/php
       username: maoxuner
       password:
@@ -35,10 +35,45 @@ steps:
       context: php-fpm
       dockerfile: php-fpm/Dockerfile
       build_args:
-        - PHP_TAG=8.0.2-fpm-alpine
+        - PHP_TAG=8.0.12-fpm-alpine
       tags:
         - fpm-alpine
-        - 8.0.2-fpm-alpine
+        - 8.0.12-fpm-alpine
+      repo: maoxuner/php
+      username: maoxuner
+      password:
+        from_secret: docker-password
+
+  - name: php7-cli
+    image: plugins/docker
+    settings:
+      # mirror: https://mirror.ccs.tencentyun.com
+      mirror: https://nex18i4o.mirror.aliyuncs.com
+      mtu: 1450
+      context: php-cli
+      dockerfile: php-cli/Dockerfile
+      build_args:
+        - PHP_TAG=7.4.25-cli-alpine
+      tags:
+        - 7.4.25-cli-alpine
+      repo: maoxuner/php
+      username: maoxuner
+      password:
+        from_secret: docker-password
+
+  - name: php7-fpm
+    image: plugins/docker
+    settings:
+      # mirror: https://mirror.ccs.tencentyun.com
+      mirror: https://nex18i4o.mirror.aliyuncs.com
+      mtu: 1450
+      context: php-fpm
+      dockerfile: php-fpm/Dockerfile
+      build_args:
+        - PHP_TAG=7.4.25-fpm-alpine
+      tags:
+        - fpm-alpine
+        - 7.4.25-fpm-alpine
       repo: maoxuner/php
       username: maoxuner
       password:
