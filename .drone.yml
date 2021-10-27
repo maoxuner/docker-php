@@ -23,8 +23,8 @@ steps:
       build_args:
         - PHP_TAG=${PHP_VERSION:-8.0.12}-cli-alpine
       tags:
-        - latest
-        - cli-alpine
+        # - latest
+        # - cli-alpine
         - ${PHP_VERSION:-8.0.12}-cli-alpine
       repo: maoxuner/php
       username: maoxuner
@@ -47,7 +47,7 @@ steps:
       build_args:
         - PHP_TAG=${PHP_VERSION:-8.0.12}-fpm-alpine
       tags:
-        - fpm-alpine
+        # - fpm-alpine
         - ${PHP_VERSION:-8.0.12}-fpm-alpine
       repo: maoxuner/php
       username: maoxuner
