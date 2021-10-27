@@ -9,10 +9,15 @@ clone:
 steps:
   - name: php-cli
     image: plugins/docker
+    volumes:
+      - name: dockersock
+        path: /var/run
     settings:
       # mirror: https://mirror.ccs.tencentyun.com
-      mirror: https://nex18i4o.mirror.aliyuncs.com
-      mtu: 1450
+      # mirror: https://nex18i4o.mirror.aliyuncs.com
+      # mtu: 1450
+      daemon_off: "true"
+      # dry_run: "true"
       context: php-cli
       dockerfile: php-cli/Dockerfile
       build_args:
@@ -28,10 +33,15 @@ steps:
 
   - name: php-fpm
     image: plugins/docker
+    volumes:
+      - name: dockersock
+        path: /var/run
     settings:
       # mirror: https://mirror.ccs.tencentyun.com
-      mirror: https://nex18i4o.mirror.aliyuncs.com
-      mtu: 1450
+      # mirror: https://nex18i4o.mirror.aliyuncs.com
+      # mtu: 1450
+      daemon_off: "true"
+      # dry_run: "true"
       context: php-fpm
       dockerfile: php-fpm/Dockerfile
       build_args:
@@ -46,10 +56,15 @@ steps:
 
   - name: php7-cli
     image: plugins/docker
+    volumes:
+      - name: dockersock
+        path: /var/run
     settings:
       # mirror: https://mirror.ccs.tencentyun.com
-      mirror: https://nex18i4o.mirror.aliyuncs.com
-      mtu: 1450
+      # mirror: https://nex18i4o.mirror.aliyuncs.com
+      # mtu: 1450
+      daemon_off: "true"
+      # dry_run: "true"
       context: php-cli
       dockerfile: php-cli/Dockerfile
       build_args:
@@ -63,10 +78,15 @@ steps:
 
   - name: php7-fpm
     image: plugins/docker
+    volumes:
+      - name: dockersock
+        path: /var/run
     settings:
       # mirror: https://mirror.ccs.tencentyun.com
-      mirror: https://nex18i4o.mirror.aliyuncs.com
-      mtu: 1450
+      # mirror: https://nex18i4o.mirror.aliyuncs.com
+      # mtu: 1450
+      daemon_off: "true"
+      # dry_run: "true"
       context: php-fpm
       dockerfile: php-fpm/Dockerfile
       build_args:
@@ -115,6 +135,26 @@ steps:
       status:
         - success
         - failure
+
+services:
+  - name: docker
+    image: docker:20.10.10-dind
+    privileged: true
+    volumes:
+      - name: dockersock
+        path: /var/run
+    command:
+      - "--data-root"
+      - "/var/lib/docker"
+      - "--host=unix:///var/run/docker.sock"
+      - "--registry-mirror"
+      - "https://nex18i4o.mirror.aliyuncs.com"
+      - "--mtu"
+      - "1450"
+
+volumes:
+  - name: dockersock
+    temp: {}
 
 ---
 kind: secret
