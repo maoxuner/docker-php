@@ -52,7 +52,7 @@ case $svc in
     ;;
     nginx)
         source_path=${NGINX_CONFIG}
-        target_path=/etc/nginx/conf.d
+        target_path=/etc/nginx/http.d
     ;;
     supervisor)
         source_path=${SUPERVISOR_CONFIG}
