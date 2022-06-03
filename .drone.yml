@@ -42,8 +42,8 @@ steps:
       # mtu: 1450
       daemon_off: "true"
       # dry_run: "true"
-      context: php-fpm
-      dockerfile: php-fpm/Dockerfile
+      context: fpm
+      dockerfile: fpm/Dockerfile
       build_args:
         - PHP_TAG=${PHP_VERSION:-8.1.6}-fpm-alpine
       tags:
