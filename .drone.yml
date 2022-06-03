@@ -18,8 +18,8 @@ steps:
       # mtu: 1450
       daemon_off: "true"
       # dry_run: "true"
-      context: cli
-      dockerfile: cli/Dockerfile
+      # context: .
+      dockerfile: Dockerfile
       build_args:
         - PHP_TAG=${PHP_VERSION:-8.1.6}-cli-alpine
       tags:
@@ -42,8 +42,8 @@ steps:
       # mtu: 1450
       daemon_off: "true"
       # dry_run: "true"
-      context: fpm
-      dockerfile: fpm/Dockerfile
+      # context: .
+      dockerfile: Dockerfile
       build_args:
         - PHP_TAG=${PHP_VERSION:-8.1.6}-fpm-alpine
       tags:
