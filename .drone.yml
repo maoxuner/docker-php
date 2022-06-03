@@ -7,7 +7,7 @@ clone:
   skip_verify: true
 
 steps:
-  - name: php-cli
+  - name: cli
     image: plugins/docker
     volumes:
       - name: dockersock
@@ -18,20 +18,20 @@ steps:
       # mtu: 1450
       daemon_off: "true"
       # dry_run: "true"
-      context: php-cli
-      dockerfile: php-cli/Dockerfile
+      context: cli
+      dockerfile: cli/Dockerfile
       build_args:
-        - PHP_TAG=${PHP_VERSION:-8.0.12}-cli-alpine
+        - PHP_TAG=${PHP_VERSION:-8.1.6}-cli-alpine
       tags:
         # - latest
         # - cli-alpine
-        - ${PHP_VERSION:-8.0.12}-cli-alpine
+        - ${PHP_VERSION:-8.1.6}-cli-alpine
       repo: maoxuner/php
       username: maoxuner
       password:
         from_secret: docker-password
 
-  - name: php-fpm
+  - name: fpm
     image: plugins/docker
     volumes:
       - name: dockersock
@@ -45,17 +45,17 @@ steps:
       context: php-fpm
       dockerfile: php-fpm/Dockerfile
       build_args:
-        - PHP_TAG=${PHP_VERSION:-8.0.12}-fpm-alpine
+        - PHP_TAG=${PHP_VERSION:-8.1.6}-fpm-alpine
       tags:
         # - fpm-alpine
-        - ${PHP_VERSION:-8.0.12}-fpm-alpine
+        - ${PHP_VERSION:-8.1.6}-fpm-alpine
       repo: maoxuner/php
       username: maoxuner
       password:
         from_secret: docker-password
 
   - name: notify
-    image: lddsb/drone-dingtalk-message
+    image: lddsb/drone-dingtalk-message:1.2.8
     settings:
       success_token:
         from_secret: dingtalk-success-token
@@ -93,7 +93,7 @@ steps:
 
 services:
   - name: docker
-    image: docker:20.10.10-dind
+    image: docker:20.10.16-dind
     privileged: true
     volumes:
       - name: dockersock
@@ -103,7 +103,7 @@ services:
       - "/var/lib/docker"
       - "--host=unix:///var/run/docker.sock"
       - "--registry-mirror"
-      - "https://nex18i4o.mirror.aliyuncs.com"
+      - "https://mirror.ccs.tencentyun.com"
       - "--mtu"
       - "1450"
 
@@ -115,33 +115,33 @@ volumes:
 kind: secret
 name: docker-password
 get:
-  path: drone-secret
-  name: docker_password
+  path: drone-docker-registry
+  name: password
 
 ---
 kind: secret
 name: dingtalk-success-token
 get:
-  path: drone-secret
-  name: dingtalk_success_token
+  path: drone-dingtalk-robot
+  name: success_token
 
 ---
 kind: secret
 name: dingtalk-success-secret
 get:
-  path: drone-secret
-  name: dingtalk_success_secret
+  path: drone-dingtalk-robot
+  name: success_secret
 
 ---
 kind: secret
 name: dingtalk-failure-token
 get:
-  path: drone-secret
-  name: dingtalk_failure_token
+  path: drone-dingtalk-robot
+  name: failure_token
 
 ---
 kind: secret
 name: dingtalk-failure-secret
 get:
-  path: drone-secret
-  name: dingtalk_failure_secret
+  path: drone-dingtalk-robot
+  name: failure_secret

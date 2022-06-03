@@ -6,13 +6,14 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 
 RUN set -ex; \
     apk add --no-cache \
+        postgresql-dev \
         libzip-dev bzip2-dev \
         libpng-dev libjpeg-turbo-dev freetype-dev \
         icu-dev; \
     docker-php-ext-configure gd --with-jpeg=/usr/include/ --with-freetype=/usr/include/; \
     docker-php-ext-install -j$(nproc) \
         opcache \
-        mysqli pdo_mysql \
+        mysqli pdo_mysql pdo_pgsql \
         zip bz2 \
         gd sockets \
         intl bcmath
@@ -51,19 +52,3 @@ RUN set -ex; \
     mkdir /opt/roadrunner; \
     curl -sfL https://archives.minio.fat4.cn/roadrunner/roadrunner-${ROAD_RUNNER_VERSION}-linux-amd64.tar.gz | tar -xz --strip-components=1 -C /opt/roadrunner; \
     ln -s /opt/roadrunner/rr /usr/local/bin/rr
-
-RUN set -ex; \
-    apk add --no-cache \
-        nginx supervisor; \
-    mkdir -p /run/nginx; \
-    ln -s /dev/sdtout /var/log/nginx/access.log; \
-    ln -s /dev/sdtout /var/log/nginx/error.log; \
-    mkdir /etc/supervisor.d; \
-    sed -i '/^;pidfile/ s/^;//' /etc/supervisord.conf; \
-    sed -i '/^files\ =/ s/.*/files\ =\ \/etc\/supervisor\.ini\ \/etc\/supervisor\.d\/\*\.ini/' /etc/supervisord.conf
-
-COPY supervisor.ini /etc/supervisor.ini
-
-COPY bin/* /usr/local/bin/
-
-CMD ["start.sh"]
