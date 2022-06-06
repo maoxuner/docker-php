@@ -52,3 +52,10 @@ RUN set -ex; \
     mkdir /opt/roadrunner; \
     curl -sfL https://minio.fat4.cn/archive/github.com/roadrunner-server/roadrunner/releases/download/v${ROAD_RUNNER_VERSION}/roadrunner-${ROAD_RUNNER_VERSION}-linux-amd64.tar.gz | tar -xz --strip-components=1 -C /opt/roadrunner; \
     ln -s /opt/roadrunner/rr /usr/local/bin/rr
+
+ENV COMPOSER_ALLOW_SUPERUSER 1
+ENV COMPOSER_HOME /tmp
+
+ARG COMPOSER_VERSION=2.3.6
+
+COPY --from=composer/composer:${COMPOSER_VERSION:-latest} /usr/bin/composer /usr/bin/composer
