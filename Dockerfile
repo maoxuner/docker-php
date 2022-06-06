@@ -19,6 +19,7 @@ RUN set -ex; \
         intl bcmath
 
 ARG REDIS_VERSION=5.3.7
+ARG IMAGICK_VERSION=3.7.0
 ARG GRPC_VERSION=1.46.3
 ARG PROTOBUF_VERSION=3.21.1
 ARG SWOOLE_VERSION=4.8.9
@@ -30,6 +31,11 @@ RUN set -ex; \
     mkdir /tmp/redis; \
     curl -sfL https://minio.fat4.cn/archive/pecl.php.net/get/redis-${REDIS_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/redis; \
     docker-php-ext-install -j$(nproc) /tmp/redis; \
+    # imagick
+    mkdir /tmp/imagick; \
+    apk add --no-cache imagemagick-dev; \
+    curl -sfL https://minio.fat4.cn/archive/pecl.php.net/get/imagick-${IMAGICK_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/imagick; \
+    docker-php-ext-install -j$(nproc) /tmp/imagick; \
     # grpc
     mkdir /tmp/grpc; \
     curl -sfL https://minio.fat4.cn/archive/pecl.php.net/get/grpc-${GRPC_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/grpc; \
@@ -56,6 +62,4 @@ RUN set -ex; \
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_HOME /tmp
 
-ARG COMPOSER_VERSION=2.3.6
-
-COPY --from=composer/composer:${COMPOSER_VERSION:-latest} /usr/bin/composer /usr/bin/composer
+COPY --from=composer/composer:2.3.7 /usr/bin/composer /usr/bin/composer
