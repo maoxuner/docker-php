@@ -2,7 +2,7 @@ ARG PHP_TAG=cli-alpine
 
 FROM php:${PHP_TAG}
 
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tencent.com/g' /etc/apk/repositories
 
 RUN set -ex; \
     apk add --no-cache \
