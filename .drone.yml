@@ -54,6 +54,22 @@ steps:
       password:
         from_secret: docker-password
 
+  - name: promote
+    image: drone/cli:1.5.0-alpine
+    environment:
+      DRONE_SERVER:
+        from_secret: drone-server
+      DRONE_TOKEN:
+        from_secret: drone-token
+    commands:
+      - set -ex
+      - |
+        if [ -z $PHP_VERSION ]; then
+            drone build promote --param PHP_VERSION=8.1.6 $DRONE_REPO $DRONE_BUILD_NUMBER production
+        else
+            echo "Current version: ${PHP_VERSION}, skip promote"
+        fi
+
   - name: notify
     image: lddsb/drone-dingtalk-message:1.2.8
     settings:
@@ -90,22 +106,6 @@ steps:
       status:
         - success
         - failure
-
-  - name: promote
-    image: drone/cli:1.5.0-alpine
-    environment:
-      DRONE_SERVER:
-        from_secret: drone-server
-      DRONE_TOKEN:
-        from_secret: drone-token
-    commands:
-      - set -ex
-      - |
-        if [ -z $PHP_VERSION ]; then
-            drone build promote --param PHP_VERSION=8.1.6 $DRONE_REPO $DRONE_BUILD_NUMBER production
-        else
-            echo "Current version: ${PHP_VERSION}, skip promote"
-        fi
 
 services:
   - name: docker
