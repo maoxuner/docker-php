@@ -21,11 +21,11 @@ steps:
       # context: .
       dockerfile: Dockerfile
       build_args:
-        - PHP_TAG=${PHP_VERSION:-8.1.6}-cli-alpine
+        - PHP_TAG=${PHP_VERSION:-7.4.29}-cli-alpine
       tags:
         # - latest
         # - cli-alpine
-        - ${PHP_VERSION:-8.1.6}-cli-alpine
+        - ${PHP_VERSION:-7.4.29}-cli-alpine
       repo: maoxuner/php
       username: maoxuner
       password:
@@ -45,10 +45,10 @@ steps:
       # context: .
       dockerfile: Dockerfile
       build_args:
-        - PHP_TAG=${PHP_VERSION:-8.1.6}-fpm-alpine
+        - PHP_TAG=${PHP_VERSION:-7.4.29}-fpm-alpine
       tags:
         # - fpm-alpine
-        - ${PHP_VERSION:-8.1.6}-fpm-alpine
+        - ${PHP_VERSION:-7.4.29}-fpm-alpine
       repo: maoxuner/php
       username: maoxuner
       password:
@@ -90,6 +90,22 @@ steps:
       status:
         - success
         - failure
+
+  - name: promote
+    image: drone/cli:1.5.0-alpine
+    environment:
+      DRONE_SERVER:
+        from_secret: drone-server
+      DRONE_TOKEN:
+        from_secret: drone-token
+    commands:
+      - set -ex
+      - |
+        if [ -z $PHP_VERSION ]; then
+            drone build promote --param PHP_VERSION=8.1.6 $DRONE_REPO $DRONE_BUILD_NUMBER production
+        else
+            echo "Current version: ${PHP_VERSION}, skip promote"
+        fi
 
 services:
   - name: docker
@@ -145,3 +161,17 @@ name: dingtalk-failure-secret
 get:
   path: drone-dingtalk-robot
   name: failure_secret
+
+---
+kind: secret
+name: drone-server
+get:
+  path: drone-cli-config
+  name: drone_server
+
+---
+kind: secret
+name: drone-token
+get:
+  path: drone-cli-config
+  name: drone_token
