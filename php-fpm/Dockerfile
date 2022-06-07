@@ -27,21 +27,21 @@ RUN set -ex; \
     apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \
     # redis
     mkdir /tmp/redis; \
-    curl -sfL https://archives.minio.fat4.cn/pecl/redis-${REDIS_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/redis; \
+    curl -sfL https://minio.fat4.cn/archive/pecl.php.net/get/redis-${REDIS_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/redis; \
     docker-php-ext-install -j$(nproc) /tmp/redis; \
     # grpc
     mkdir /tmp/grpc; \
-    curl -sfL https://archives.minio.fat4.cn/pecl/grpc-${GRPC_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/grpc; \
+    curl -sfL https://minio.fat4.cn/archive/pecl.php.net/get/grpc-${GRPC_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/grpc; \
     apk add --no-cache linux-headers; \
     CPPFLAGS="-Wno-maybe-uninitialized" docker-php-ext-install -j$(nproc) /tmp/grpc; \
     apk del linux-headers; \
     # protobuf
     mkdir /tmp/protobuf; \
-    curl -sfL https://archives.minio.fat4.cn/pecl/protobuf-${PROTOBUF_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/protobuf; \
+    curl -sfL https://minio.fat4.cn/archive/pecl.php.net/get/protobuf-${PROTOBUF_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/protobuf; \
     docker-php-ext-install -j$(nproc) /tmp/protobuf; \
     # swoole
     mkdir /tmp/swoole; \
-    curl -sfL https://archives.minio.fat4.cn/pecl/swoole-${SWOOLE_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/swoole; \
+    curl -sfL https://minio.fat4.cn/archive/pecl.php.net/get/swoole-${SWOOLE_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/swoole; \
     apk add --no-cache openssl-dev pcre-dev pcre2-dev zlib-dev; \
     docker-php-ext-configure /tmp/swoole --enable-http2 --enable-mysqlnd --enable-openssl --enable-sockets --enable-swoole-json; \
     docker-php-ext-install -j$(nproc) /tmp/swoole; \
@@ -49,7 +49,7 @@ RUN set -ex; \
 
 RUN set -ex; \
     mkdir /opt/roadrunner; \
-    curl -sfL https://archives.minio.fat4.cn/roadrunner/roadrunner-${ROAD_RUNNER_VERSION}-linux-amd64.tar.gz | tar -xz --strip-components=1 -C /opt/roadrunner; \
+    curl -sfL https://minio.fat4.cn/archive/github.com/roadrunner-server/roadrunner/releases/download/v${ROAD_RUNNER_VERSION}/roadrunner-${ROAD_RUNNER_VERSION}-linux-amd64.tar.gz | tar -xz --strip-components=1 -C /opt/roadrunner; \
     ln -s /opt/roadrunner/rr /usr/local/bin/rr
 
 RUN set -ex; \
