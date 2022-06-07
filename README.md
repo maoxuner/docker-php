@@ -17,7 +17,6 @@
 - zip
 - bz2
 - gd
-- imagick
 - sockets
 - intl
 - bcmath
