@@ -19,9 +19,9 @@ RUN set -ex; \
         intl bcmath
 
 ARG REDIS_VERSION=5.3.7
-ARG GRPC_VERSION=1.46.3
-ARG PROTOBUF_VERSION=3.21.1
-ARG SWOOLE_VERSION=4.8.9
+ARG GRPC_VERSION=1.47.0
+ARG PROTOBUF_VERSION=3.21.2
+ARG SWOOLE_VERSION=4.8.11
 RUN set -ex; \
     apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \
     # redis
@@ -50,12 +50,15 @@ RUN set -ex; \
     rm -rf /tmp/swoole; \
     apk del .build-deps $PHPIZE_DEPS
 
-ARG ROAD_RUNNER_VERSION=2.10.3
+ARG ROAD_RUNNER_VERSION=2.10.7
 RUN set -ex; \
     mkdir /opt/roadrunner; \
-    curl -sfL https://minio.fat4.cn/archive/github.com/roadrunner-server/roadrunner/releases/download/v${ROAD_RUNNER_VERSION}/roadrunner-${ROAD_RUNNER_VERSION}-linux-amd64.tar.gz | tar -xz --strip-components=1 -C /opt/roadrunner; \
+    curl -sfL https://ghproxy.com/https://github.com/roadrunner-server/roadrunner/releases/download/v${ROAD_RUNNER_VERSION}/roadrunner-${ROAD_RUNNER_VERSION}-linux-amd64.tar.gz | tar -xz --strip-components=1 -C /opt/roadrunner; \
     ln -s /opt/roadrunner/rr /usr/local/bin/rr
 
+ARG COMPOSER_VERSION=2.3.10
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_HOME /tmp
-COPY --from=composer/composer:2.3.7 /usr/bin/composer /usr/bin/composer
+RUN set -ex; \
+    curl -sfL https://ghproxy.com/https://github.com/composer/composer/releases/download/${COMPOSER_VERSION}/composer.phar -o /usr/local/bin/composer; \
+    chmod +x /usr/local/bin/composer
