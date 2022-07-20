@@ -6,6 +6,70 @@ clone:
   depth: 1
   skip_verify: true
 
+trigger:
+  event:
+    - tag
+
+steps:
+  - name: promote
+    image: drone/cli:1.5.0-alpine
+    environment:
+      DRONE_SERVER:
+        from_secret: drone-server
+      DRONE_TOKEN:
+        from_secret: drone-token
+    commands:
+      - drone build promote --param PHP_VERSION=${DRONE_TAG#v} $DRONE_REPO $DRONE_BUILD_NUMBER production
+
+  - name: notify
+    image: lddsb/drone-dingtalk-message:1.2.8
+    settings:
+      success_token:
+        from_secret: dingtalk-success-token
+      success_secret:
+        from_secret: dingtalk-success-secret
+      failure_token:
+        from_secret: dingtalk-failure-token
+      failure_secret:
+        from_secret: dingtalk-failure-secret
+      lang: zh_CN
+      msg_type: markdown
+      msg_at_all: false
+    commands:
+      - set -e
+      - |
+        # DRONE_BUILD_STATUS always success in Kubernetes
+        # https://discourse.drone.io/t/drone-build-status-always-success-in-kubernetes/6627
+        if [ -f /run/drone/env ]; then
+            grep DRONE_ /run/drone/env > /tmp/env
+            source /tmp/env
+        fi
+      - |
+        if [ $DRONE_BUILD_STATUS = "success" ]; then
+            export PLUGIN_TOKEN=$PLUGIN_SUCCESS_TOKEN
+            export PLUGIN_SECRET=$PLUGIN_SUCCESS_SECRET
+        else
+            export PLUGIN_TOKEN=$PLUGIN_FAILURE_TOKEN
+            export PLUGIN_SECRET=$PLUGIN_FAILURE_SECRET
+        fi
+      - /bin/drone-dingtalk
+    when:
+      status:
+        - failure
+
+---
+kind: pipeline
+type: kubernetes
+name: build
+
+clone:
+  depth: 1
+  skip_verify: true
+
+trigger:
+  event:
+    - promote
+
 steps:
   - name: cli
     image: plugins/docker
@@ -54,25 +118,6 @@ steps:
       password:
         from_secret: docker-password
 
-  - name: promote
-    image: drone/cli:1.5.0-alpine
-    environment:
-      DRONE_SERVER:
-        from_secret: drone-server
-      DRONE_TOKEN:
-        from_secret: drone-token
-    commands:
-      - set -ex
-      - |
-        if [ -z $PHP_VERSION ]; then
-            drone build promote --param PHP_VERSION=8.1.8 $DRONE_REPO $DRONE_BUILD_NUMBER production
-        else
-            echo "Current version: ${PHP_VERSION}, skip promote"
-        fi
-    when:
-      event:
-        - push
-        - tag
   - name: notify
     image: lddsb/drone-dingtalk-message:1.2.8
     settings:
