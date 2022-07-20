@@ -69,7 +69,10 @@ steps:
         else
             echo "Current version: ${PHP_VERSION}, skip promote"
         fi
-
+    when:
+      event:
+        - push
+        - tag
   - name: notify
     image: lddsb/drone-dingtalk-message:1.2.8
     settings:
