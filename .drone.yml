@@ -2,10 +2,6 @@ kind: pipeline
 type: kubernetes
 name: default
 
-clone:
-  depth: 1
-  skip_verify: true
-
 trigger:
   event:
     - tag
@@ -62,10 +58,6 @@ kind: pipeline
 type: kubernetes
 name: build
 
-clone:
-  depth: 1
-  skip_verify: true
-
 trigger:
   event:
     - promote
@@ -77,18 +69,11 @@ steps:
       - name: dockersock
         path: /var/run
     settings:
-      # mirror: https://mirror.ccs.tencentyun.com
-      # mirror: https://nex18i4o.mirror.aliyuncs.com
-      # mtu: 1450
-      daemon_off: "true"
-      # dry_run: "true"
-      # context: .
+      daemon_off: 'true'
       dockerfile: Dockerfile
       build_args:
         - PHP_TAG=${PHP_VERSION:-7.4.30}-cli-alpine
       tags:
-        # - latest
-        # - cli-alpine
         - ${PHP_VERSION:-7.4.30}-cli-alpine
       repo: maoxuner/php
       username: maoxuner
@@ -101,17 +86,11 @@ steps:
       - name: dockersock
         path: /var/run
     settings:
-      # mirror: https://mirror.ccs.tencentyun.com
-      # mirror: https://nex18i4o.mirror.aliyuncs.com
-      # mtu: 1450
-      daemon_off: "true"
-      # dry_run: "true"
-      # context: .
+      daemon_off: 'true'
       dockerfile: Dockerfile
       build_args:
         - PHP_TAG=${PHP_VERSION:-7.4.30}-fpm-alpine
       tags:
-        # - fpm-alpine
         - ${PHP_VERSION:-7.4.30}-fpm-alpine
       repo: maoxuner/php
       username: maoxuner
@@ -157,19 +136,19 @@ steps:
 
 services:
   - name: docker
-    image: docker:20.10.16-dind
+    image: docker:dind
     privileged: true
     volumes:
       - name: dockersock
         path: /var/run
     command:
-      - "--data-root"
-      - "/var/lib/docker"
-      - "--host=unix:///var/run/docker.sock"
-      - "--registry-mirror"
-      - "https://mirror.ccs.tencentyun.com"
-      - "--mtu"
-      - "1450"
+      - '--data-root'
+      - '/var/lib/docker'
+      - '--host=unix:///var/run/docker.sock'
+      - '--registry-mirror'
+      - 'https://mirror.ccs.tencentyun.com'
+      - '--mtu'
+      - '1450'
 
 volumes:
   - name: dockersock
