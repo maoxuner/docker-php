@@ -1,84 +1,115 @@
 kind: pipeline
 type: kubernetes
-name: default
-
-trigger:
-  event:
-    - tag
-
-steps:
-  - name: promote
-    image: drone/cli:1.5.0-alpine
-    environment:
-      DRONE_SERVER:
-        from_secret: drone-server
-      DRONE_TOKEN:
-        from_secret: drone-token
-    commands:
-      - drone build promote --param PHP_VERSION=${DRONE_TAG#v} $DRONE_REPO $DRONE_BUILD_NUMBER production
-
-  - name: notify
-    image: lddsb/drone-dingtalk-message:1.2.8
-    settings:
-      success_token:
-        from_secret: dingtalk-success-token
-      success_secret:
-        from_secret: dingtalk-success-secret
-      failure_token:
-        from_secret: dingtalk-failure-token
-      failure_secret:
-        from_secret: dingtalk-failure-secret
-      lang: zh_CN
-      msg_type: markdown
-      msg_at_all: false
-    commands:
-      - set -e
-      - |
-        # DRONE_BUILD_STATUS always success in Kubernetes
-        # https://discourse.drone.io/t/drone-build-status-always-success-in-kubernetes/6627
-        if [ -f /run/drone/env ]; then
-            grep DRONE_ /run/drone/env > /tmp/env
-            source /tmp/env
-        fi
-      - |
-        if [ $DRONE_BUILD_STATUS = "success" ]; then
-            export PLUGIN_TOKEN=$PLUGIN_SUCCESS_TOKEN
-            export PLUGIN_SECRET=$PLUGIN_SUCCESS_SECRET
-        else
-            export PLUGIN_TOKEN=$PLUGIN_FAILURE_TOKEN
-            export PLUGIN_SECRET=$PLUGIN_FAILURE_SECRET
-        fi
-      - /bin/drone-dingtalk
-    when:
-      status:
-        - failure
-
----
-kind: pipeline
-type: kubernetes
 name: build
 
 trigger:
+  branch:
+    - main
   event:
+    - push
     - promote
 
 steps:
+  - name: 7-cli
+    image: plugins/docker
+    volumes:
+      - name: dockersock
+        path: /var/run
+    settings:
+      daemon_off: true
+      dockerfile: Dockerfile
+      build_args:
+        - PHP_TAG=7.4.30-cli-alpine
+      tags:
+        - 7.4.30-cli-alpine
+      repo: maoxuner/php
+      username: maoxuner
+      password:
+        from_secret: docker-password
+    when:
+      event:
+        - push
+
+  - name: 7-fpm
+    image: plugins/docker
+    volumes:
+      - name: dockersock
+        path: /var/run
+    settings:
+      daemon_off: true
+      dockerfile: Dockerfile
+      build_args:
+        - PHP_TAG=7.4.30-fpm-alpine
+      tags:
+        - 7.4.30-fpm-alpine
+      repo: maoxuner/php
+      username: maoxuner
+      password:
+        from_secret: docker-password
+    when:
+      event:
+        - push
+
+  - name: 8-cli
+    image: plugins/docker
+    volumes:
+      - name: dockersock
+        path: /var/run
+    settings:
+      daemon_off: true
+      dockerfile: Dockerfile
+      build_args:
+        - PHP_TAG=8.1.8-cli-alpine
+      tags:
+        - latest
+        - 8.1.8-cli-alpine
+      repo: maoxuner/php
+      username: maoxuner
+      password:
+        from_secret: docker-password
+    when:
+      event:
+        - push
+
+  - name: 8-fpm
+    image: plugins/docker
+    volumes:
+      - name: dockersock
+        path: /var/run
+    settings:
+      daemon_off: true
+      dockerfile: Dockerfile
+      build_args:
+        - PHP_TAG=8.1.8-fpm-alpine
+      tags:
+        - 8.1.8-fpm-alpine
+      repo: maoxuner/php
+      username: maoxuner
+      password:
+        from_secret: docker-password
+    when:
+      event:
+        - push
+
   - name: cli
     image: plugins/docker
     volumes:
       - name: dockersock
         path: /var/run
     settings:
-      daemon_off: 'true'
+      daemon_off: true
       dockerfile: Dockerfile
       build_args:
-        - PHP_TAG=${PHP_VERSION:-7.4.30}-cli-alpine
+        - PHP_TAG=${PHP_VERSION:-8.1.8}-cli-alpine
       tags:
-        - ${PHP_VERSION:-7.4.30}-cli-alpine
+        - ${PHP_VERSION:-8.1.8}-cli-alpine
       repo: maoxuner/php
       username: maoxuner
       password:
         from_secret: docker-password
+    when:
+      event:
+        - promote
 
   - name: fpm
     image: plugins/docker
@@ -86,16 +117,19 @@ steps:
       - name: dockersock
         path: /var/run
     settings:
-      daemon_off: 'true'
+      daemon_off: true
       dockerfile: Dockerfile
       build_args:
-        - PHP_TAG=${PHP_VERSION:-7.4.30}-fpm-alpine
+        - PHP_TAG=${PHP_VERSION:-8.1.8}-fpm-alpine
       tags:
-        - ${PHP_VERSION:-7.4.30}-fpm-alpine
+        - ${PHP_VERSION:-8.1.8}-fpm-alpine
       repo: maoxuner/php
       username: maoxuner
       password:
         from_secret: docker-password
+    when:
+      event:
+        - promote
 
   - name: notify
     image: lddsb/drone-dingtalk-message:1.2.8
@@ -188,17 +222,3 @@ name: dingtalk-failure-secret
 get:
   path: drone-dingtalk-robot
   name: failure_secret
-
----
-kind: secret
-name: drone-server
-get:
-  path: drone-cli-config
-  name: drone_server
-
----
-kind: secret
-name: drone-token
-get:
-  path: drone-cli-config
-  name: drone_token
