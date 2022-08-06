@@ -19,9 +19,9 @@ RUN set -ex; \
         intl bcmath
 
 ARG REDIS_VERSION=5.3.7
-ARG GRPC_VERSION=1.47.0
-ARG PROTOBUF_VERSION=3.21.2
-ARG SWOOLE_VERSION=4.8.11
+ARG GRPC_VERSION=1.48.0
+ARG PROTOBUF_VERSION=3.21.4
+ARG SWOOLE_VERSION=5.0.0
 RUN set -ex; \
     apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \
     # redis
