@@ -21,7 +21,7 @@ RUN set -ex; \
 ARG REDIS_VERSION=5.3.7
 ARG GRPC_VERSION=1.48.0
 ARG PROTOBUF_VERSION=3.21.4
-ARG SWOOLE_VERSION=5.0.0
+ARG SWOOLE_VERSION=4.8.11
 RUN set -ex; \
     apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \
     # redis
@@ -45,7 +45,7 @@ RUN set -ex; \
     mkdir /tmp/swoole; \
     curl -sfL https://minio.fat4.cn/archive/pecl.php.net/get/swoole-${SWOOLE_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/swoole; \
     apk add --no-cache openssl-dev curl-dev; \
-    docker-php-ext-configure /tmp/swoole --enable-openssl --enable-swoole-curl; \
+    docker-php-ext-configure /tmp/swoole --enable-openssl --enable-http2 --enable-swoole-json --enable-swoole-curl; \
     docker-php-ext-install -j$(nproc) /tmp/swoole; \
     rm -rf /tmp/swoole; \
     apk del .build-deps $PHPIZE_DEPS

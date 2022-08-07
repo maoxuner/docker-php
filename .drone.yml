@@ -4,7 +4,7 @@ name: build
 
 trigger:
   branch:
-    - main
+    - php7
   event:
     - push
     - promote
@@ -19,9 +19,9 @@ steps:
       daemon_off: true
       dockerfile: Dockerfile
       build_args:
-        - PHP_TAG=${PHP_VERSION:-8.1.9}-cli-alpine
+        - PHP_TAG=${PHP_VERSION:-7.4.30}-cli-alpine
       tags:
-        - ${PHP_VERSION:-8.1.9}-cli-alpine
+        - ${PHP_VERSION:-7.4.30}-cli-alpine
       repo: maoxuner/php
       username: maoxuner
       password:
@@ -36,9 +36,9 @@ steps:
       daemon_off: true
       dockerfile: Dockerfile
       build_args:
-        - PHP_TAG=${PHP_VERSION:-8.1.9}-fpm-alpine
+        - PHP_TAG=${PHP_VERSION:-7.4.30}-fpm-alpine
       tags:
-        - ${PHP_VERSION:-8.1.9}-fpm-alpine
+        - ${PHP_VERSION:-7.4.30}-fpm-alpine
       repo: maoxuner/php
       username: maoxuner
       password:
