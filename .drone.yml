@@ -10,87 +10,6 @@ trigger:
     - promote
 
 steps:
-  - name: 7-cli
-    image: plugins/docker
-    volumes:
-      - name: dockersock
-        path: /var/run
-    settings:
-      daemon_off: true
-      dockerfile: Dockerfile
-      build_args:
-        - PHP_TAG=7.4.30-cli-alpine
-      tags:
-        - 7.4.30-cli-alpine
-      repo: maoxuner/php
-      username: maoxuner
-      password:
-        from_secret: docker-password
-    when:
-      event:
-        - push
-
-  - name: 7-fpm
-    image: plugins/docker
-    volumes:
-      - name: dockersock
-        path: /var/run
-    settings:
-      daemon_off: true
-      dockerfile: Dockerfile
-      build_args:
-        - PHP_TAG=7.4.30-fpm-alpine
-      tags:
-        - 7.4.30-fpm-alpine
-      repo: maoxuner/php
-      username: maoxuner
-      password:
-        from_secret: docker-password
-    when:
-      event:
-        - push
-
-  - name: 8-cli
-    image: plugins/docker
-    volumes:
-      - name: dockersock
-        path: /var/run
-    settings:
-      daemon_off: true
-      dockerfile: Dockerfile
-      build_args:
-        - PHP_TAG=8.1.9-cli-alpine
-      tags:
-        - latest
-        - 8.1.9-cli-alpine
-      repo: maoxuner/php
-      username: maoxuner
-      password:
-        from_secret: docker-password
-    when:
-      event:
-        - push
-
-  - name: 8-fpm
-    image: plugins/docker
-    volumes:
-      - name: dockersock
-        path: /var/run
-    settings:
-      daemon_off: true
-      dockerfile: Dockerfile
-      build_args:
-        - PHP_TAG=8.1.9-fpm-alpine
-      tags:
-        - 8.1.9-fpm-alpine
-      repo: maoxuner/php
-      username: maoxuner
-      password:
-        from_secret: docker-password
-    when:
-      event:
-        - push
-
   - name: cli
     image: plugins/docker
     volumes:
@@ -107,9 +26,6 @@ steps:
       username: maoxuner
       password:
         from_secret: docker-password
-    when:
-      event:
-        - promote
 
   - name: fpm
     image: plugins/docker
@@ -127,9 +43,6 @@ steps:
       username: maoxuner
       password:
         from_secret: docker-password
-    when:
-      event:
-        - promote
 
   - name: notify
     image: lddsb/drone-dingtalk-message:1.2.8

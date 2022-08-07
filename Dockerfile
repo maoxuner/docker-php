@@ -44,8 +44,8 @@ RUN set -ex; \
     # swoole
     mkdir /tmp/swoole; \
     curl -sfL https://minio.fat4.cn/archive/pecl.php.net/get/swoole-${SWOOLE_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/swoole; \
-    apk add --no-cache openssl-dev pcre-dev pcre2-dev zlib-dev; \
-    docker-php-ext-configure /tmp/swoole --enable-http2 --enable-mysqlnd --enable-openssl --enable-sockets --enable-swoole-json; \
+    apk add --no-cache openssl-dev curl-dev; \
+    docker-php-ext-configure /tmp/swoole --enable-openssl --enable-swoole-curl; \
     docker-php-ext-install -j$(nproc) /tmp/swoole; \
     rm -rf /tmp/swoole; \
     apk del .build-deps $PHPIZE_DEPS
