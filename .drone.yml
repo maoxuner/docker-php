@@ -21,6 +21,7 @@ steps:
       build_args:
         - PHP_TAG=${PHP_VERSION:-8.1.9}-cli-alpine
       tags:
+        - latest
         - ${PHP_VERSION:-8.1.9}-cli-alpine
       repo: maoxuner/php
       username: maoxuner
