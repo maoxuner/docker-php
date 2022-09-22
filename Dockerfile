@@ -50,7 +50,7 @@ RUN set -ex; \
     rm -rf /tmp/swoole; \
     apk del .build-deps $PHPIZE_DEPS
 
-ARG ROAD_RUNNER_VERSION=2.10.7
+ARG ROAD_RUNNER_VERSION=2.11.2
 RUN set -ex; \
     mkdir /opt/roadrunner; \
     curl -sfL https://ghproxy.com/https://github.com/roadrunner-server/roadrunner/releases/download/v${ROAD_RUNNER_VERSION}/roadrunner-${ROAD_RUNNER_VERSION}-linux-amd64.tar.gz | tar -xz --strip-components=1 -C /opt/roadrunner; \
