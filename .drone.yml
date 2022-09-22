@@ -19,10 +19,10 @@ steps:
       daemon_off: true
       dockerfile: Dockerfile
       build_args:
-        - PHP_TAG=${PHP_VERSION:-8.1.9}-cli-alpine
+        - PHP_TAG=${PHP_VERSION:-8.1.10}-cli-alpine
       tags:
         - latest
-        - ${PHP_VERSION:-8.1.9}-cli-alpine
+        - ${PHP_VERSION:-8.1.10}-cli-alpine
       repo: maoxuner/php
       username: maoxuner
       password:
@@ -37,9 +37,9 @@ steps:
       daemon_off: true
       dockerfile: Dockerfile
       build_args:
-        - PHP_TAG=${PHP_VERSION:-8.1.9}-fpm-alpine
+        - PHP_TAG=${PHP_VERSION:-8.1.10}-fpm-alpine
       tags:
-        - ${PHP_VERSION:-8.1.9}-fpm-alpine
+        - ${PHP_VERSION:-8.1.10}-fpm-alpine
       repo: maoxuner/php
       username: maoxuner
       password:
@@ -90,13 +90,13 @@ services:
       - name: dockersock
         path: /var/run
     command:
-      - '--data-root'
-      - '/var/lib/docker'
-      - '--host=unix:///var/run/docker.sock'
-      - '--registry-mirror'
-      - 'https://mirror.ccs.tencentyun.com'
-      - '--mtu'
-      - '1450'
+      - "--data-root"
+      - "/var/lib/docker"
+      - "--host=unix:///var/run/docker.sock"
+      - "--registry-mirror"
+      - "https://mirror.ccs.tencentyun.com"
+      - "--mtu"
+      - "1450"
 
 volumes:
   - name: dockersock
