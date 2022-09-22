@@ -89,13 +89,13 @@ services:
       - name: dockersock
         path: /var/run
     command:
-      - '--data-root'
-      - '/var/lib/docker'
-      - '--host=unix:///var/run/docker.sock'
-      - '--registry-mirror'
-      - 'https://mirror.ccs.tencentyun.com'
-      - '--mtu'
-      - '1450'
+      - "--data-root"
+      - "/var/lib/docker"
+      - "--host=unix:///var/run/docker.sock"
+      - "--registry-mirror"
+      - "https://mirror.ccs.tencentyun.com"
+      - "--mtu"
+      - "1450"
 
 volumes:
   - name: dockersock

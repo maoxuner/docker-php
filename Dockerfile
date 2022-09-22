@@ -19,8 +19,8 @@ RUN set -ex; \
         intl bcmath
 
 ARG REDIS_VERSION=5.3.7
-ARG GRPC_VERSION=1.48.0
-ARG PROTOBUF_VERSION=3.21.4
+ARG GRPC_VERSION=1.49.0
+ARG PROTOBUF_VERSION=3.21.6
 ARG SWOOLE_VERSION=4.8.11
 RUN set -ex; \
     apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \
@@ -50,13 +50,13 @@ RUN set -ex; \
     rm -rf /tmp/swoole; \
     apk del .build-deps $PHPIZE_DEPS
 
-ARG ROAD_RUNNER_VERSION=2.10.7
+ARG ROAD_RUNNER_VERSION=2.11.2
 RUN set -ex; \
     mkdir /opt/roadrunner; \
     curl -sfL https://ghproxy.com/https://github.com/roadrunner-server/roadrunner/releases/download/v${ROAD_RUNNER_VERSION}/roadrunner-${ROAD_RUNNER_VERSION}-linux-amd64.tar.gz | tar -xz --strip-components=1 -C /opt/roadrunner; \
     ln -s /opt/roadrunner/rr /usr/local/bin/rr
 
-ARG COMPOSER_VERSION=2.3.10
+ARG COMPOSER_VERSION=2.4.2
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_HOME /tmp
 RUN set -ex; \
