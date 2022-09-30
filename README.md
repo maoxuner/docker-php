@@ -13,6 +13,7 @@
 - protobuf
 - swoole(4.8.11)
 - opcache
+- pcntl
 - mysqli
 - pdo_mysql
 - pdo_pgsql
