@@ -12,7 +12,7 @@ RUN set -ex; \
         icu-dev; \
     docker-php-ext-configure gd --with-jpeg=/usr/include/ --with-freetype=/usr/include/; \
     docker-php-ext-install -j$(nproc) \
-        opcache \
+        opcache pcntl \
         mysqli pdo_mysql pdo_pgsql \
         zip bz2 \
         gd sockets \
