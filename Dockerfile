@@ -20,8 +20,8 @@ RUN set -ex; \
 
 ARG REDIS_VERSION=5.3.7
 ARG GRPC_VERSION=1.49.0
-ARG PROTOBUF_VERSION=3.21.6
-ARG SWOOLE_VERSION=4.8.11
+ARG PROTOBUF_VERSION=3.21.7
+ARG SWOOLE_VERSION=4.8.12
 RUN set -ex; \
     apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \
     # redis
@@ -50,7 +50,7 @@ RUN set -ex; \
     rm -rf /tmp/swoole; \
     apk del .build-deps $PHPIZE_DEPS
 
-ARG ROAD_RUNNER_VERSION=2.11.2
+ARG ROAD_RUNNER_VERSION=2.11.4
 RUN set -ex; \
     mkdir /opt/roadrunner; \
     curl -sfL https://ghproxy.com/https://github.com/roadrunner-server/roadrunner/releases/download/v${ROAD_RUNNER_VERSION}/roadrunner-${ROAD_RUNNER_VERSION}-linux-amd64.tar.gz | tar -xz --strip-components=1 -C /opt/roadrunner; \
