@@ -19,10 +19,10 @@ steps:
       daemon_off: true
       dockerfile: Dockerfile
       build_args:
-        - PHP_TAG=${PHP_VERSION:-8.1.11}-cli-alpine
+        - PHP_TAG=${PHP_VERSION:-8.1.12}-cli-alpine
       tags:
         - latest
-        - ${PHP_VERSION:-8.1.11}-cli-alpine
+        - ${PHP_VERSION:-8.1.12}-cli-alpine
       repo: maoxuner/php
       username: maoxuner
       password:
@@ -37,9 +37,9 @@ steps:
       daemon_off: true
       dockerfile: Dockerfile
       build_args:
-        - PHP_TAG=${PHP_VERSION:-8.1.11}-fpm-alpine
+        - PHP_TAG=${PHP_VERSION:-8.1.12}-fpm-alpine
       tags:
-        - ${PHP_VERSION:-8.1.11}-fpm-alpine
+        - ${PHP_VERSION:-8.1.12}-fpm-alpine
       repo: maoxuner/php
       username: maoxuner
       password:
