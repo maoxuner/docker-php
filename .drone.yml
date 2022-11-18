@@ -9,6 +9,11 @@ trigger:
     - push
     - promote
 
+resources:
+  limits:
+    cpu: 3500
+    memory: 1000MiB
+
 steps:
   - name: cli
     image: plugins/docker
@@ -96,6 +101,10 @@ services:
       - "https://mirror.ccs.tencentyun.com"
       - "--mtu"
       - "1450"
+    resources:
+      requests:
+        cpu: 1000
+        memory: 100MiB
 
 volumes:
   - name: dockersock
