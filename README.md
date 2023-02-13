@@ -17,7 +17,7 @@
 - mysqli
 - pdo_mysql
 - pdo_pgsql
-- zip
+- zip(1.15.6)
 - bz2
 - gd
 - sockets
