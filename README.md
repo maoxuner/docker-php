@@ -8,10 +8,10 @@
 
 # PHP 扩展
 
-- redis
-- grpc
-- protobuf
-- swoole(4.8.12)
+- redis(5.3.7)
+- grpc(1.51.1)
+- protobuf(3.21.12)
+- swoole([4.8.12](https://wiki.swoole.com/#/environment "4.8版本需要php-7.2或更高版本，5.0版本需要php-8.0或更高版本"))
 - opcache
 - pcntl
 - mysqli
@@ -26,5 +26,5 @@
 
 # 其他
 
-- roadrunner
-- composer
+- roadrunner(2.12.2)
+- composer(2.5.3)

@@ -1,26 +1,30 @@
-ARG PHP_TAG=cli-alpine
+ARG PHP_TAG=7.4.33-cli-alpine
+ARG ROADRUNNER_TAG=2.12.2
+ARG COMPOSER_TAG=2
 
+FROM spiralscout/roadrunner:${ROADRUNNER_TAG} as roadrunner
+FROM composer:${COMPOSER_TAG} as composer
 FROM php:${PHP_TAG}
 
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tencent.com/g' /etc/apk/repositories
 
 RUN set -ex; \
     apk add --no-cache \
-        postgresql-dev \
-        libzip-dev bzip2-dev \
-        libpng-dev libjpeg-turbo-dev freetype-dev \
-        icu-dev; \
+    postgresql-dev \
+    libzip-dev bzip2-dev \
+    libpng-dev libjpeg-turbo-dev freetype-dev \
+    icu-dev; \
     docker-php-ext-configure gd --with-jpeg=/usr/include/ --with-freetype=/usr/include/; \
     docker-php-ext-install -j$(nproc) \
-        opcache pcntl \
-        mysqli pdo_mysql pdo_pgsql \
-        zip bz2 \
-        gd sockets \
-        intl bcmath
+    opcache pcntl \
+    mysqli pdo_mysql pdo_pgsql \
+    zip bz2 \
+    gd sockets \
+    intl bcmath
 
 ARG REDIS_VERSION=5.3.7
-ARG GRPC_VERSION=1.49.0
-ARG PROTOBUF_VERSION=3.21.7
+ARG GRPC_VERSION=1.51.1
+ARG PROTOBUF_VERSION=3.21.12
 ARG SWOOLE_VERSION=4.8.12
 RUN set -ex; \
     apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \
@@ -50,15 +54,8 @@ RUN set -ex; \
     rm -rf /tmp/swoole; \
     apk del .build-deps $PHPIZE_DEPS
 
-ARG ROAD_RUNNER_VERSION=2.11.4
-RUN set -ex; \
-    mkdir /opt/roadrunner; \
-    curl -sfL https://ghproxy.com/https://github.com/roadrunner-server/roadrunner/releases/download/v${ROAD_RUNNER_VERSION}/roadrunner-${ROAD_RUNNER_VERSION}-linux-amd64.tar.gz | tar -xz --strip-components=1 -C /opt/roadrunner; \
-    ln -s /opt/roadrunner/rr /usr/local/bin/rr
+COPY --from=roadrunner /usr/bin/rr /usr/local/bin/rr
 
-ARG COMPOSER_VERSION=2.4.2
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_HOME /tmp
-RUN set -ex; \
-    curl -sfL https://ghproxy.com/https://github.com/composer/composer/releases/download/${COMPOSER_VERSION}/composer.phar -o /usr/local/bin/composer; \
-    chmod +x /usr/local/bin/composer
+COPY --from=composer /usr/bin/composer /usr/local/bin/composer

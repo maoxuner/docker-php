@@ -1,5 +1,5 @@
 kind: pipeline
-type: kubernetes
+type: docker
 name: build
 
 trigger:
@@ -9,22 +9,15 @@ trigger:
     - push
     - promote
 
-resources:
-  requests:
-    cpu: 100
-    memory: 50MiB
-
 steps:
   - name: cli
     image: plugins/docker
-    volumes:
-      - name: dockersock
-        path: /var/run
     settings:
-      daemon_off: true
       dockerfile: Dockerfile
       build_args:
         - PHP_TAG=${PHP_VERSION:-7.4.33}-cli-alpine
+        - ROADRUNNER_TAG=${ROADRUNNER_VERSION:-2.12.2}
+        - COMPOSER_TAG=${COMPOSER_VERSION:-2}
       tags:
         - ${PHP_VERSION:-7.4.33}-cli-alpine
       repo: maoxuner/php
@@ -34,14 +27,12 @@ steps:
 
   - name: fpm
     image: plugins/docker
-    volumes:
-      - name: dockersock
-        path: /var/run
     settings:
-      daemon_off: true
       dockerfile: Dockerfile
       build_args:
         - PHP_TAG=${PHP_VERSION:-7.4.33}-fpm-alpine
+        - ROADRUNNER_TAG=${ROADRUNNER_VERSION:-2.12.2}
+        - COMPOSER_TAG=${COMPOSER_VERSION:-2}
       tags:
         - ${PHP_VERSION:-7.4.33}-fpm-alpine
       repo: maoxuner/php
@@ -66,13 +57,6 @@ steps:
     commands:
       - set -e
       - |
-        # DRONE_BUILD_STATUS always success in Kubernetes
-        # https://discourse.drone.io/t/drone-build-status-always-success-in-kubernetes/6627
-        if [ -f /run/drone/env ]; then
-            grep DRONE_ /run/drone/env > /tmp/env
-            source /tmp/env
-        fi
-      - |
         if [ $DRONE_BUILD_STATUS = "success" ]; then
             export PLUGIN_TOKEN=$PLUGIN_SUCCESS_TOKEN
             export PLUGIN_SECRET=$PLUGIN_SUCCESS_SECRET
@@ -85,33 +69,6 @@ steps:
       status:
         - success
         - failure
-
-services:
-  - name: docker
-    image: docker:dind
-    privileged: true
-    volumes:
-      - name: dockersock
-        path: /var/run
-    command:
-      - "--data-root"
-      - "/var/lib/docker"
-      - "--host=unix:///var/run/docker.sock"
-      - "--registry-mirror"
-      - "https://mirror.ccs.tencentyun.com"
-      - "--mtu"
-      - "1450"
-    resources:
-      limits:
-        cpu: 3500
-        memory: 1000MiB
-      requests:
-        cpu: 1000
-        memory: 100MiB
-
-volumes:
-  - name: dockersock
-    temp: {}
 
 ---
 kind: secret
