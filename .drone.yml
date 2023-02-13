@@ -13,6 +13,7 @@ steps:
   - name: cli
     image: plugins/docker
     settings:
+      mtu: 1450
       dockerfile: Dockerfile
       build_args:
         - PHP_TAG=${PHP_VERSION:-7.4.33}-cli-alpine
@@ -28,6 +29,7 @@ steps:
   - name: fpm
     image: plugins/docker
     settings:
+      mtu: 1450
       dockerfile: Dockerfile
       build_args:
         - PHP_TAG=${PHP_VERSION:-7.4.33}-fpm-alpine
