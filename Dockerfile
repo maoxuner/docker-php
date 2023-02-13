@@ -10,17 +10,17 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tencent.com/g' /etc/apk/repositorie
 
 RUN set -ex; \
     apk add --no-cache \
-    postgresql-dev \
-    libzip-dev bzip2-dev \
-    libpng-dev libjpeg-turbo-dev freetype-dev \
-    icu-dev; \
+        postgresql-dev \
+        libzip-dev bzip2-dev \
+        libpng-dev libjpeg-turbo-dev freetype-dev \
+        icu-dev; \
     docker-php-ext-configure gd --with-jpeg=/usr/include/ --with-freetype=/usr/include/; \
     docker-php-ext-install -j$(nproc) \
-    opcache pcntl \
-    mysqli pdo_mysql pdo_pgsql \
-    zip bz2 \
-    gd sockets \
-    intl bcmath
+        opcache pcntl \
+        mysqli pdo_mysql pdo_pgsql \
+        zip bz2 \
+        gd sockets \
+        intl bcmath
 
 ARG REDIS_VERSION=5.3.7
 ARG GRPC_VERSION=1.51.1
