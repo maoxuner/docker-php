@@ -1,4 +1,4 @@
-ARG PHP_TAG=8.1.15-cli-alpine
+ARG PHP_TAG=8.2.2-cli-alpine
 ARG ROADRUNNER_TAG=2.12.2
 ARG COMPOSER_TAG=2
 
@@ -13,6 +13,7 @@ RUN set -ex; \
         postgresql-dev \
         libzip-dev bzip2-dev \
         libpng-dev libjpeg-turbo-dev freetype-dev \
+        linux-headers \
         icu-dev; \
     docker-php-ext-configure gd --with-jpeg=/usr/include/ --with-freetype=/usr/include/; \
     docker-php-ext-install -j$(nproc) \
@@ -20,7 +21,8 @@ RUN set -ex; \
         mysqli pdo_mysql pdo_pgsql \
         zip bz2 \
         gd sockets \
-        intl bcmath
+        intl bcmath; \
+    apk del linux-headers
 
 ARG REDIS_VERSION=5.3.7
 ARG GRPC_VERSION=1.51.1

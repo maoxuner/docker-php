@@ -16,11 +16,11 @@ steps:
       mtu: 1450
       dockerfile: Dockerfile
       build_args:
-        - PHP_TAG=${PHP_VERSION:-8.1.15}-cli-alpine
+        - PHP_TAG=${PHP_VERSION:-8.2.2}-cli-alpine
         - ROADRUNNER_TAG=${ROADRUNNER_VERSION:-2.12.2}
         - COMPOSER_TAG=${COMPOSER_VERSION:-2}
       tags:
-        - ${PHP_VERSION:-8.1.15}-cli-alpine
+        - ${PHP_VERSION:-8.2.2}-cli-alpine
         - latest
       repo: maoxuner/php
       username: maoxuner
@@ -33,11 +33,11 @@ steps:
       mtu: 1450
       dockerfile: Dockerfile
       build_args:
-        - PHP_TAG=${PHP_VERSION:-8.1.15}-fpm-alpine
+        - PHP_TAG=${PHP_VERSION:-8.2.2}-fpm-alpine
         - ROADRUNNER_TAG=${ROADRUNNER_VERSION:-2.12.2}
         - COMPOSER_TAG=${COMPOSER_VERSION:-2}
       tags:
-        - ${PHP_VERSION:-8.1.15}-fpm-alpine
+        - ${PHP_VERSION:-8.2.2}-fpm-alpine
       repo: maoxuner/php
       username: maoxuner
       password:
