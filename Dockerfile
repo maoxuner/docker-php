@@ -23,6 +23,7 @@ RUN set -ex; \
         intl bcmath
 
 ARG REDIS_VERSION=5.3.7
+ARG MONGODB_VERSION=1.15.1
 ARG GRPC_VERSION=1.51.1
 ARG PROTOBUF_VERSION=3.21.12
 ARG SWOOLE_VERSION=4.8.12
@@ -33,6 +34,11 @@ RUN set -ex; \
     curl -sfL https://minio.fat4.cn/archive/pecl.php.net/get/redis-${REDIS_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/redis; \
     docker-php-ext-install -j$(nproc) /tmp/redis; \
     rm -rf /tmp/redis; \
+    # mongodb
+    mkdir /tmp/mongodb; \
+    curl -sfL https://minio.fat4.cn/archive/pecl.php.net/get/mongodb-${MONGODB_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/mongodb; \
+    docker-php-ext-install -j$(nproc) /tmp/mongodb; \
+    rm -rf /tmp/mongodb; \
     # grpc
     mkdir /tmp/grpc; \
     curl -sfL https://minio.fat4.cn/archive/pecl.php.net/get/grpc-${GRPC_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/grpc; \
