@@ -1,6 +1,6 @@
 kind: pipeline
 type: docker
-name: build
+name: default
 
 trigger:
   branch:
@@ -14,16 +14,17 @@ steps:
     image: plugins/docker
     volumes:
       - name: docker-socket
-        path: /var/run/docker.sock
+        path: /run/docker.sock
     settings:
       mtu: 1450
+      purge: false
       dockerfile: Dockerfile
       build_args:
-        - PHP_TAG=${PHP_VERSION:-8.2.3}-cli-alpine
-        - ROADRUNNER_TAG=${ROADRUNNER_VERSION:-2.12.2}
+        - PHP_TAG=${PHP_VERSION:-8.2.4}-cli-alpine
+        - ROADRUNNER_TAG=${ROADRUNNER_VERSION:-2.12.3}
         - COMPOSER_TAG=${COMPOSER_VERSION:-2}
       tags:
-        - ${PHP_VERSION:-8.2.3}-cli-alpine
+        - ${PHP_VERSION:-8.2.4}-cli-alpine
         - latest
       repo: maoxuner/php
       username: maoxuner
@@ -34,16 +35,17 @@ steps:
     image: plugins/docker
     volumes:
       - name: docker-socket
-        path: /var/run/docker.sock
+        path: /run/docker.sock
     settings:
       mtu: 1450
+      purge: false
       dockerfile: Dockerfile
       build_args:
-        - PHP_TAG=${PHP_VERSION:-8.2.3}-fpm-alpine
-        - ROADRUNNER_TAG=${ROADRUNNER_VERSION:-2.12.2}
+        - PHP_TAG=${PHP_VERSION:-8.2.4}-fpm-alpine
+        - ROADRUNNER_TAG=${ROADRUNNER_VERSION:-2.12.3}
         - COMPOSER_TAG=${COMPOSER_VERSION:-2}
       tags:
-        - ${PHP_VERSION:-8.2.3}-fpm-alpine
+        - ${PHP_VERSION:-8.2.4}-fpm-alpine
       repo: maoxuner/php
       username: maoxuner
       password:
@@ -78,42 +80,43 @@ steps:
       status:
         - success
         - failure
+
 volumes:
   - name: docker-socket
     host:
-      path: /var/run/docker.sock
+      path: /run/docker.sock
 
 ---
 kind: secret
 name: docker-password
 get:
   path: drone-docker-registry
-  name: password
+  name: DOCKER_PASSWORD
 
 ---
 kind: secret
 name: dingtalk-success-token
 get:
   path: drone-dingtalk-robot
-  name: success_token
+  name: SUCCESS_TOKEN
 
 ---
 kind: secret
 name: dingtalk-success-secret
 get:
   path: drone-dingtalk-robot
-  name: success_secret
+  name: SUCCESS_SECRET
 
 ---
 kind: secret
 name: dingtalk-failure-token
 get:
   path: drone-dingtalk-robot
-  name: failure_token
+  name: FAILURE_TOKEN
 
 ---
 kind: secret
 name: dingtalk-failure-secret
 get:
   path: drone-dingtalk-robot
-  name: failure_secret
+  name: FAILURE_SECRET
