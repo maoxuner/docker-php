@@ -12,7 +12,7 @@
 - mongodb(1.15.1)
 - grpc(1.52.1)
 - protobuf(3.22.1)
-- swoole(5.0.1)
+- swoole(5.0.2)
 - opcache
 - pcntl
 - mysqli
