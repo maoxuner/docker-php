@@ -27,7 +27,8 @@ steps:
         - ${PHP_VERSION:-8.2.4}-cli-alpine
         - latest
       repo: maoxuner/php
-      username: maoxuner
+      username:
+        from_secret: docker-username
       password:
         from_secret: docker-password
 
@@ -47,9 +48,19 @@ steps:
       tags:
         - ${PHP_VERSION:-8.2.4}-fpm-alpine
       repo: maoxuner/php
-      username: maoxuner
+      username:
+        from_secret: docker-username
       password:
         from_secret: docker-password
+
+  - name: pushrm
+    image: chko/docker-pushrm
+    environment:
+      DOCKER_USER:
+        from_secret: docker-username
+      DOCKER_PASS:
+        from_secret: docker-password
+      PUSHRM_TARGET: docker.io/maoxuner/yadst
 
   - name: notify
     image: lddsb/drone-dingtalk-message:1.2.8
@@ -85,6 +96,13 @@ volumes:
   - name: docker-socket
     host:
       path: /run/docker.sock
+
+---
+kind: secret
+name: docker-username
+get:
+  path: drone-docker-registry
+  name: DOCKER_USERNAME
 
 ---
 kind: secret
