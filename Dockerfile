@@ -33,29 +33,29 @@ RUN set -ex; \
     apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \
     # redis
     mkdir /tmp/redis; \
-    curl -sfL https://minio.fat4.cn/archive/pecl.php.net/get/redis-${REDIS_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/redis; \
+    curl http://upyun.fat4.cn/archives/pecl.php.net/get/redis-${REDIS_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/redis; \
     docker-php-ext-install -j$(nproc) /tmp/redis; \
     rm -rf /tmp/redis; \
     # mongodb
     mkdir /tmp/mongodb; \
-    curl -sfL https://minio.fat4.cn/archive/pecl.php.net/get/mongodb-${MONGODB_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/mongodb; \
+    curl http://upyun.fat4.cn/archives/pecl.php.net/get/mongodb-${MONGODB_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/mongodb; \
     docker-php-ext-install -j$(nproc) /tmp/mongodb; \
     rm -rf /tmp/mongodb; \
     # grpc
     mkdir /tmp/grpc; \
-    curl -sfL https://minio.fat4.cn/archive/pecl.php.net/get/grpc-${GRPC_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/grpc; \
+    curl http://upyun.fat4.cn/archives/pecl.php.net/get/grpc-${GRPC_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/grpc; \
     apk add --no-cache linux-headers; \
     CPPFLAGS="-Wno-maybe-uninitialized" docker-php-ext-install -j$(nproc) /tmp/grpc; \
     apk del linux-headers; \
     rm -rf /tmp/grpc; \
     # protobuf
     mkdir /tmp/protobuf; \
-    curl -sfL https://minio.fat4.cn/archive/pecl.php.net/get/protobuf-${PROTOBUF_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/protobuf; \
+    curl http://upyun.fat4.cn/archives/pecl.php.net/get/protobuf-${PROTOBUF_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/protobuf; \
     docker-php-ext-install -j$(nproc) /tmp/protobuf; \
     rm -rf /tmp/protobuf; \
     # swoole
     mkdir /tmp/swoole; \
-    curl -sfL https://minio.fat4.cn/archive/pecl.php.net/get/swoole-${SWOOLE_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/swoole; \
+    curl http://upyun.fat4.cn/archives/pecl.php.net/get/swoole-${SWOOLE_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/swoole; \
     apk add --no-cache openssl-dev curl-dev; \
     docker-php-ext-configure /tmp/swoole --enable-openssl --enable-swoole-curl; \
     docker-php-ext-install -j$(nproc) /tmp/swoole; \
