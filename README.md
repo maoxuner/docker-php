@@ -1,6 +1,6 @@
 # 定制 PHP
 
-[![Gitea Repo](https://badgen.net/badge/gitea/php7?icon=git)](https://git.fat4.cn/maoxuner/docker-php)
+[![Gitee Repo](https://badgen.net/badge/gitee/php7?icon=git)](https://gitee.com/maoxuner/docker-php/tree/php7)
 [![Docker Registry](https://badgen.net/badge/docker/latest?icon=docker)](https://hub.docker.com/r/maoxuner/php)
 [![Build Status](https://img.shields.io/drone/build/maoxuner/docker-php/php7?logo=drone&server=https://drone.fat4.cn)](https://drone.fat4.cn/maoxuner/docker-php)
 
