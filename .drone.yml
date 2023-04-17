@@ -20,11 +20,11 @@ steps:
       purge: false
       dockerfile: Dockerfile
       build_args:
-        - PHP_TAG=${PHP_VERSION:-8.2.4}-cli-alpine
-        - ROADRUNNER_TAG=${ROADRUNNER_VERSION:-2.12.3}
+        - PHP_TAG=${PHP_VERSION:-8.2.5}-cli-alpine
+        - ROADRUNNER_TAG=${ROADRUNNER_VERSION:-2023.1.0}
         - COMPOSER_TAG=${COMPOSER_VERSION:-2}
       tags:
-        - ${PHP_VERSION:-8.2.4}-cli-alpine
+        - ${PHP_VERSION:-8.2.5}-cli-alpine
         - latest
       repo: maoxuner/php
       username:
@@ -42,11 +42,11 @@ steps:
       purge: false
       dockerfile: Dockerfile
       build_args:
-        - PHP_TAG=${PHP_VERSION:-8.2.4}-fpm-alpine
-        - ROADRUNNER_TAG=${ROADRUNNER_VERSION:-2.12.3}
+        - PHP_TAG=${PHP_VERSION:-8.2.5}-fpm-alpine
+        - ROADRUNNER_TAG=${ROADRUNNER_VERSION:-2023.1.0}
         - COMPOSER_TAG=${COMPOSER_VERSION:-2}
       tags:
-        - ${PHP_VERSION:-8.2.4}-fpm-alpine
+        - ${PHP_VERSION:-8.2.5}-fpm-alpine
       repo: maoxuner/php
       username:
         from_secret: docker-username
@@ -60,7 +60,7 @@ steps:
         from_secret: docker-username
       DOCKER_PASS:
         from_secret: docker-password
-      PUSHRM_TARGET: docker.io/maoxuner/yadst
+      PUSHRM_TARGET: docker.io/maoxuner/php
 
   - name: notify
     image: lddsb/drone-dingtalk-message:1.2.8
