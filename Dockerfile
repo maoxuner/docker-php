@@ -1,5 +1,5 @@
-ARG PHP_TAG=8.2.5-cli-alpine
-ARG ROADRUNNER_TAG=2023.1.0
+ARG PHP_TAG=8.2.6-cli-alpine
+ARG ROADRUNNER_TAG=2023.1.3
 ARG COMPOSER_TAG=2
 
 FROM spiralscout/roadrunner:${ROADRUNNER_TAG} as roadrunner
@@ -25,10 +25,10 @@ RUN set -ex; \
     apk del linux-headers
 
 ARG REDIS_VERSION=5.3.7
-ARG MONGODB_VERSION=1.15.1
-ARG GRPC_VERSION=1.53.0
-ARG PROTOBUF_VERSION=3.22.3
-ARG SWOOLE_VERSION=5.0.2
+ARG MONGODB_VERSION=1.15.3
+ARG GRPC_VERSION=1.54.0
+ARG PROTOBUF_VERSION=3.22.5
+ARG SWOOLE_VERSION=5.0.3
 RUN set -ex; \
     apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \
     # redis
