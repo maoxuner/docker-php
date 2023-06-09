@@ -4,14 +4,14 @@
 [![Docker Registry](https://badgen.net/badge/docker/latest?icon=docker)](https://hub.docker.com/r/maoxuner/php)
 [![Build Status](https://img.shields.io/drone/build/maoxuner/docker-php/main?logo=drone&server=https://drone.fat4.cn)](https://drone.fat4.cn/maoxuner/docker-php)
 
-安装了常用组件的定制镜像，避免项目使用时构建镜像。PHP 版本`8.2.6`
+安装了常用组件的定制镜像，避免项目使用时构建镜像。PHP 版本`8.2.7`
 
 # PHP 扩展
 
 - redis(5.3.7)
 - mongodb(1.15.3)
-- grpc(1.54.0)
-- protobuf(3.22.5)
+- grpc(1.55.0)
+- protobuf(3.23.2)
 - swoole(5.0.3)
 - opcache
 - pcntl
