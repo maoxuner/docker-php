@@ -31,7 +31,6 @@ steps:
       dockerfile: Dockerfile
       build_args:
         - PHP_TAG=${PHP_VERSION:-7.4.33}-cli-alpine
-        - ROADRUNNER_TAG=${ROADRUNNER_VERSION:-2.12.3}
         - COMPOSER_TAG=${COMPOSER_VERSION:-2}
       tags:
         - ${PHP_VERSION:-7.4.33}-cli-alpine
@@ -51,7 +50,6 @@ steps:
       dockerfile: Dockerfile
       build_args:
         - PHP_TAG=${PHP_VERSION:-7.4.33}-fpm-alpine
-        - ROADRUNNER_TAG=${ROADRUNNER_VERSION:-2.12.3}
         - COMPOSER_TAG=${COMPOSER_VERSION:-2}
       tags:
         - ${PHP_VERSION:-7.4.33}-fpm-alpine
