@@ -8,6 +8,7 @@ trigger:
   event:
     - push
     - promote
+    - custom
 
 steps:
   - name: cli
