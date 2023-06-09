@@ -1,8 +1,6 @@
 ARG PHP_TAG=8.2.7-cli-alpine
-ARG ROADRUNNER_TAG=2023.1.3
 ARG COMPOSER_TAG=2
 
-FROM spiralscout/roadrunner:${ROADRUNNER_TAG} as roadrunner
 FROM composer:${COMPOSER_TAG} as composer
 FROM php:${PHP_TAG}
 
@@ -26,8 +24,6 @@ RUN set -ex; \
 
 ARG REDIS_VERSION=5.3.7
 ARG MONGODB_VERSION=1.15.3
-ARG GRPC_VERSION=1.55.0
-ARG PROTOBUF_VERSION=3.23.2
 ARG SWOOLE_VERSION=5.0.3
 RUN set -ex; \
     apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \
@@ -41,18 +37,6 @@ RUN set -ex; \
     curl http://upyun.fat4.cn/archives/pecl.php.net/get/mongodb-${MONGODB_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/mongodb; \
     docker-php-ext-install -j$(nproc) /tmp/mongodb; \
     rm -rf /tmp/mongodb; \
-    # grpc
-    mkdir /tmp/grpc; \
-    curl http://upyun.fat4.cn/archives/pecl.php.net/get/grpc-${GRPC_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/grpc; \
-    apk add --no-cache linux-headers; \
-    CPPFLAGS="-Wno-maybe-uninitialized" docker-php-ext-install -j$(nproc) /tmp/grpc; \
-    apk del linux-headers; \
-    rm -rf /tmp/grpc; \
-    # protobuf
-    mkdir /tmp/protobuf; \
-    curl http://upyun.fat4.cn/archives/pecl.php.net/get/protobuf-${PROTOBUF_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/protobuf; \
-    docker-php-ext-install -j$(nproc) /tmp/protobuf; \
-    rm -rf /tmp/protobuf; \
     # swoole
     mkdir /tmp/swoole; \
     curl http://upyun.fat4.cn/archives/pecl.php.net/get/swoole-${SWOOLE_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/swoole; \
@@ -61,7 +45,5 @@ RUN set -ex; \
     docker-php-ext-install -j$(nproc) /tmp/swoole; \
     rm -rf /tmp/swoole; \
     apk del .build-deps $PHPIZE_DEPS
-
-COPY --from=roadrunner /usr/bin/rr /usr/local/bin/rr
 
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer

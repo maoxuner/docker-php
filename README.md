@@ -10,8 +10,6 @@
 
 - redis(5.3.7)
 - mongodb(1.15.3)
-- grpc(1.55.0)
-- protobuf(3.23.2)
 - swoole(5.0.3)
 - opcache
 - pcntl
@@ -27,5 +25,4 @@
 
 # 其他
 
-- roadrunner(2023.1.3)
 - composer(2.x)

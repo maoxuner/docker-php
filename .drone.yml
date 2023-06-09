@@ -21,7 +21,6 @@ steps:
       dockerfile: Dockerfile
       build_args:
         - PHP_TAG=${PHP_VERSION:-8.2.7}-cli-alpine
-        - ROADRUNNER_TAG=${ROADRUNNER_VERSION:-2023.1.3}
         - COMPOSER_TAG=${COMPOSER_VERSION:-2}
       tags:
         - ${PHP_VERSION:-8.2.7}-cli-alpine
@@ -43,7 +42,6 @@ steps:
       dockerfile: Dockerfile
       build_args:
         - PHP_TAG=${PHP_VERSION:-8.2.7}-fpm-alpine
-        - ROADRUNNER_TAG=${ROADRUNNER_VERSION:-2023.1.3}
         - COMPOSER_TAG=${COMPOSER_VERSION:-2}
       tags:
         - ${PHP_VERSION:-8.2.7}-fpm-alpine
@@ -61,6 +59,8 @@ steps:
       DOCKER_PASS:
         from_secret: docker-password
       PUSHRM_TARGET: docker.io/maoxuner/php
+      HTTP_PROXY: ${PROXY_SERVER}
+      HTTPS_PROXY: ${PROXY_SERVER}
 
   - name: notify
     image: lddsb/drone-dingtalk-message:1.2.8
