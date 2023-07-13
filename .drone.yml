@@ -52,17 +52,6 @@ steps:
       password:
         from_secret: docker-password
 
-  - name: pushrm
-    image: chko/docker-pushrm
-    environment:
-      DOCKER_USER:
-        from_secret: docker-username
-      DOCKER_PASS:
-        from_secret: docker-password
-      PUSHRM_TARGET: docker.io/maoxuner/php
-      HTTP_PROXY: ${PROXY_SERVER}
-      HTTPS_PROXY: ${PROXY_SERVER}
-
   - name: notify
     image: lddsb/drone-dingtalk-message:1.2.8
     settings:
