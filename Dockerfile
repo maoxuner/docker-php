@@ -1,4 +1,4 @@
-ARG PHP_TAG=8.2.7-cli-alpine
+ARG PHP_TAG=8.2.8-cli-alpine
 ARG COMPOSER_TAG=2
 
 FROM composer:${COMPOSER_TAG} as composer
@@ -23,7 +23,7 @@ RUN set -ex; \
     apk del linux-headers
 
 ARG REDIS_VERSION=5.3.7
-ARG MONGODB_VERSION=1.15.3
+ARG MONGODB_VERSION=1.16.1
 ARG SWOOLE_VERSION=5.0.3
 RUN set -ex; \
     apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \

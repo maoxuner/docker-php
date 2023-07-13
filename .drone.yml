@@ -21,10 +21,10 @@ steps:
       purge: false
       dockerfile: Dockerfile
       build_args:
-        - PHP_TAG=${PHP_VERSION:-8.2.7}-cli-alpine
+        - PHP_TAG=${PHP_VERSION:-8.2.8}-cli-alpine
         - COMPOSER_TAG=${COMPOSER_VERSION:-2}
       tags:
-        - ${PHP_VERSION:-8.2.7}-cli-alpine
+        - ${PHP_VERSION:-8.2.8}-cli-alpine
         - latest
       repo: maoxuner/php
       username:
@@ -42,10 +42,10 @@ steps:
       purge: false
       dockerfile: Dockerfile
       build_args:
-        - PHP_TAG=${PHP_VERSION:-8.2.7}-fpm-alpine
+        - PHP_TAG=${PHP_VERSION:-8.2.8}-fpm-alpine
         - COMPOSER_TAG=${COMPOSER_VERSION:-2}
       tags:
-        - ${PHP_VERSION:-8.2.7}-fpm-alpine
+        - ${PHP_VERSION:-8.2.8}-fpm-alpine
       repo: maoxuner/php
       username:
         from_secret: docker-username
