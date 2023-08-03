@@ -1,19 +1,13 @@
-.PHONY: clean
+repo = maoxuner/php
+tags = cli fpm
+vers = 7
 
-all: cli fpm
+all: $(tags)
+
+$(tags):
+	docker build -t $(repo):$(vers)-$@-alpine --build-arg=PHP_TAG=$(vers)-$@-alpine .
 
 test: all clean
 
-cli:
-	docker build -t maoxuner/php:7-cli-alpine --build-arg=PHP_TAG=7-cli-alpine .
-
-fpm:
-	docker build -t maoxuner/php:7-fpm-alpine --build-arg=PHP_TAG=7-fpm-alpine .
-
 clean:
-	docker rmi -f \
-		php:7-cli-alpine \
-		php:7-fpm-alpine \
-		maoxuner/php:7-cli-alpine \
-		maoxuner/php:7-fpm-alpine \
-		> /dev/null 2>&1
+	docker rmi -f $(foreach tag,$(tags),$(repo):$(vers)-$(tag)-alpine)
