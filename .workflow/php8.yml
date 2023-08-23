@@ -1,0 +1,48 @@
+version: '1.0'
+name: php8
+displayName: PHP8
+triggers:
+  trigger: auto
+  push:
+    branches:
+      precise:
+        - main
+variables:
+  PHP_TAG: 8.2.9
+stages:
+  - name: default
+    displayName: 默认
+    strategy: naturally
+    trigger: auto
+    executor: []
+    steps:
+      - step: build@docker
+        name: build_docker_cli
+        displayName: cli
+        type: cert
+        certificate: b34f1b10-ba3e-013b-91d0-1ecb49bdcebb
+        tag: maoxuner/php:${PHP_TAG}-cli-alpine
+        dockerfile: ./Dockerfile
+        context: ''
+        artifacts: []
+        isCache: false
+        parameter:
+          PHP_TAG: ${PHP_TAG}-cli-alpine
+        notify: []
+        strategy:
+          retry: '0'
+      - step: build@docker
+        name: build_docker_fpm
+        displayName: fpm
+        type: cert
+        certificate: b34f1b10-ba3e-013b-91d0-1ecb49bdcebb
+        tag: maoxuner/php:${PHP_TAG}-fpm-alpine
+        dockerfile: ./Dockerfile
+        context: ''
+        artifacts: []
+        isCache: false
+        parameter:
+          PHP_TAG: ${PHP_TAG}-fpm-alpine
+        notify: []
+        strategy:
+          retry: '0'
