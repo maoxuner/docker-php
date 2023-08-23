@@ -25,7 +25,7 @@ stages:
         dockerfile: ./Dockerfile
         context: ''
         artifacts: []
-        isCache: true
+        isCache: false
         parameter:
           PHP_TAG: ${PHP_TAG}-cli-alpine
         notify: []
@@ -40,7 +40,7 @@ stages:
         dockerfile: ./Dockerfile
         context: ''
         artifacts: []
-        isCache: true
+        isCache: false
         parameter:
           PHP_TAG: ${PHP_TAG}-fpm-alpine
         notify: []
