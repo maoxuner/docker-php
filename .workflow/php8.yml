@@ -10,8 +10,8 @@ triggers:
 variables:
   PHP_TAG: 8.2.9
 stages:
-  - name: default
-    displayName: 默认
+  - name: build
+    displayName: 构建
     strategy: naturally
     trigger: auto
     executor: []
@@ -25,7 +25,7 @@ stages:
         dockerfile: ./Dockerfile
         context: ''
         artifacts: []
-        isCache: false
+        isCache: true
         parameter:
           PHP_TAG: ${PHP_TAG}-cli-alpine
         notify: []
@@ -40,9 +40,30 @@ stages:
         dockerfile: ./Dockerfile
         context: ''
         artifacts: []
-        isCache: false
+        isCache: true
         parameter:
           PHP_TAG: ${PHP_TAG}-fpm-alpine
+        notify: []
+        strategy:
+          retry: '0'
+  - name: tags
+    displayName: 标签
+    strategy: naturally
+    trigger: auto
+    executor: []
+    steps:
+      - step: build@docker
+        name: build_docker_latest
+        displayName: latest
+        type: cert
+        certificate: b34f1b10-ba3e-013b-91d0-1ecb49bdcebb
+        tag: maoxuner/php:latest
+        dockerfile: ./Dockerfile
+        context: ''
+        artifacts: []
+        isCache: true
+        parameter:
+          PHP_TAG: ${PHP_TAG}-cli-alpine
         notify: []
         strategy:
           retry: '0'
