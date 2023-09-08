@@ -1,4 +1,4 @@
-ARG PHP_TAG=8.2.9-cli-alpine
+ARG PHP_TAG=8.2.10-cli-alpine
 ARG COMPOSER_TAG=2
 
 FROM composer:${COMPOSER_TAG} as composer
