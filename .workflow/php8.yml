@@ -64,6 +64,30 @@ stages:
         isCache: false
         parameter:
           PHP_TAG: ${PHP_TAG}-cli-alpine
-        notify: []
+        notify:
+          - certificate: 1bf0a710-303f-013c-0f4d-4afef757e4a0
+            events:
+              - success
+            content:
+              - repository
+              - pipeline
+              - stage
+              - task
+              - operator
+              - branch
+              - detail
+            type: dingtalk
+          - certificate: 0a844880-303f-013c-ccf7-0e601ba24b3a
+            events:
+              - fail
+            content:
+              - repository
+              - pipeline
+              - stage
+              - task
+              - operator
+              - branch
+              - detail
+            type: dingtalk
         strategy:
           retry: '0'
