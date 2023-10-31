@@ -22,7 +22,7 @@ RUN set -ex; \
     intl bcmath; \
     apk del linux-headers
 
-ARG REDIS_VERSION=5.3.7
+ARG REDIS_VERSION=6.0.2
 ARG MONGODB_VERSION=1.16.2
 ARG SWOOLE_VERSION=5.1.0
 RUN set -ex; \

@@ -7,7 +7,7 @@
 
 # PHP 扩展
 
-- redis(5.3.7)
+- redis(6.0.2)
 - mongodb(1.16.2)
 - swoole(5.1.0)
 - opcache
