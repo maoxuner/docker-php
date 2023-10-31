@@ -7,7 +7,7 @@
 
 # PHP 扩展
 
-- redis(5.3.7)
+- redis(6.0.2)
 - mongodb(1.16.2)
 - swoole([4.8.13](https://wiki.swoole.com/#/environment "4.8版本需要php-7.2或更高版本，5.0版本需要php-8.0或更高版本"))
 - opcache

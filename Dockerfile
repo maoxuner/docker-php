@@ -20,7 +20,7 @@ RUN set -ex; \
     gd sockets \
     intl bcmath
 
-ARG REDIS_VERSION=5.3.7
+ARG REDIS_VERSION=6.0.2
 ARG MONGODB_VERSION=1.16.2
 ARG SWOOLE_VERSION=4.8.13
 RUN set -ex; \
