@@ -21,7 +21,7 @@ RUN set -ex; \
     intl bcmath
 
 ARG REDIS_VERSION=6.0.2
-ARG MONGODB_VERSION=1.16.2
+ARG MONGODB_VERSION=1.17.1
 ARG SWOOLE_VERSION=4.8.13
 RUN set -ex; \
     apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \
