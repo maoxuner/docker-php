@@ -8,7 +8,7 @@ triggers:
       precise:
         - main
 variables:
-  PHP_TAG: 8.2.12
+  PHP_TAG: 8.2.13
 stages:
   - name: build
     displayName: 构建
