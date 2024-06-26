@@ -2,7 +2,7 @@ version: '1.0'
 name: php8
 displayName: PHP8
 triggers:
-  trigger: auto
+  trigger: manual
   push:
     branches:
       precise:

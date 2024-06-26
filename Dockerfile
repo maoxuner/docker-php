@@ -29,17 +29,17 @@ RUN set -ex; \
     apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \
     # redis
     mkdir /tmp/redis; \
-    curl http://upyun.fat4.cn/archives/pecl.php.net/get/redis-${REDIS_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/redis; \
+    curl -k https://oss.bytes.us.to/archives/pecl.php.net/get/redis-${REDIS_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/redis; \
     docker-php-ext-install -j$(nproc) /tmp/redis; \
     rm -rf /tmp/redis; \
     # mongodb
     mkdir /tmp/mongodb; \
-    curl http://upyun.fat4.cn/archives/pecl.php.net/get/mongodb-${MONGODB_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/mongodb; \
+    curl -k https://oss.bytes.us.to/archives/pecl.php.net/get/mongodb-${MONGODB_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/mongodb; \
     docker-php-ext-install -j$(nproc) /tmp/mongodb; \
     rm -rf /tmp/mongodb; \
     # swoole
     mkdir /tmp/swoole; \
-    curl http://upyun.fat4.cn/archives/pecl.php.net/get/swoole-${SWOOLE_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/swoole; \
+    curl -k https://oss.bytes.us.to/archives/pecl.php.net/get/swoole-${SWOOLE_VERSION}.tgz | tar -xz --strip-components=1 -C /tmp/swoole; \
     apk add --no-cache openssl-dev curl-dev; \
     docker-php-ext-configure /tmp/swoole --enable-openssl --enable-swoole-curl; \
     docker-php-ext-install -j$(nproc) /tmp/swoole; \
