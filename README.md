@@ -21,6 +21,7 @@
 - sockets
 - intl
 - bcmath
+- calendar
 
 # 其他
 
