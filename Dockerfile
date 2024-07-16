@@ -19,7 +19,8 @@ RUN set -ex; \
     mysqli pdo_mysql pdo_pgsql \
     zip bz2 \
     gd sockets \
-    intl bcmath; \
+    intl bcmath \
+    calendar; \
     apk del linux-headers
 
 ARG REDIS_VERSION=6.0.2
