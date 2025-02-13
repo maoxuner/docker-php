@@ -1,17 +1,28 @@
-repo = docker.io/maoxuner/php
-tags = cli fpm
-vers = 8
+repo = registry.cn-shanghai.aliyuncs.com/maoxuner/php
 
 cri := $(shell command -v podman || command -v docker)
-os = linux
-arch = amd64
 
-all: $(tags)
+all: php5.image php7.image php8.image
 
-$(tags):
-	$(cri) build -t $(repo):$(vers)-$@-alpine --build-arg=PHP_TAG=$(vers)-$@-alpine --platform=$(os)/$(arch) .
+php5.image: version=5.6.40
+php5.image: php5 php5/Dockerfile
+	$(cri) build --tag $(repo):$(version)-cli-alpine --build-arg=PHP_TAG=$(version)-cli-alpine $<
+	$(cri) build --tag $(repo):$(version)-fpm-alpine --build-arg=PHP_TAG=$(version)-fpm-alpine $<
+php7.image: version=7.4.33
+php7.image: php7 php7/Dockerfile
+	$(cri) build --tag $(repo):$(version)-cli-alpine --build-arg=PHP_TAG=$(version)-cli-alpine $<
+	$(cri) build --tag $(repo):$(version)-fpm-alpine --build-arg=PHP_TAG=$(version)-fpm-alpine $<
+php8.image: version=8.2.27
+php8.image: php8 php8/Dockerfile
+	$(cri) build --tag $(repo):$(version)-cli-alpine --build-arg=PHP_TAG=$(version)-cli-alpine $<
+	$(cri) build --tag $(repo):$(version)-fpm-alpine --build-arg=PHP_TAG=$(version)-fpm-alpine $<
 
 test: all clean
 
 clean:
-	$(cri) rmi -f $(foreach tag,$(tags),$(repo):$(vers)-$(tag)-alpine)
+	$(cri) rmi -f $(repo):5.6.40-cli-alpine
+	$(cri) rmi -f $(repo):5.6.40-fpm-alpine
+	$(cri) rmi -f $(repo):7.4.33-cli-alpine
+	$(cri) rmi -f $(repo):7.4.33-fpm-alpine
+	$(cri) rmi -f $(repo):8.2.27-cli-alpine
+	$(cri) rmi -f $(repo):8.2.27-fpm-alpine
