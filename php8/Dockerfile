@@ -30,11 +30,11 @@ RUN set -ex; \
 ARG REDIS_VERSION=6.1.0
 ARG MONGODB_VERSION=1.20.1
 RUN set -ex; \
-    apk add --no-cache $PHPIZE_DEPS; \
+    apk add --no-cache $PHPIZE_DEPS openssl-dev; \
     pecl install redis-${REDIS_VERSION}; \
     pecl install mongodb-${MONGODB_VERSION}; \
     docker-php-ext-enable redis mongodb; \
-    apk del $PHPIZE_DEPS; \
+    apk del $PHPIZE_DEPS openssl-dev; \
     rm -rf /tmp/pear
 
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
