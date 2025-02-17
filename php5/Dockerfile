@@ -30,7 +30,7 @@ RUN set -ex; \
 ARG REDIS_VERSION=4.3.0
 ARG MONGODB_VERSION=1.7.5
 RUN set -ex; \
-    apk add --no-cache $PHPIZE_DEPS openssl-dev; \
+    apk add --no-cache $PHPIZE_DEPS libssl1.0 openssl-dev; \
     pecl channel-update pecl.php.net; \
     pecl install redis-${REDIS_VERSION}; \
     pecl install mongodb-${MONGODB_VERSION}; \
