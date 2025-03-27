@@ -28,7 +28,7 @@ RUN set -ex; \
         libzip-dev bzip2-dev \
         postgresql-dev
 
-ARG REDIS_VERSION=6.1.0
+ARG REDIS_VERSION=6.2.0
 ARG MONGODB_VERSION=1.20.1
 RUN set -ex; \
     apk add --no-cache $PHPIZE_DEPS openssl-dev; \
