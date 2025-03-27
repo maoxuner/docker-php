@@ -22,3 +22,4 @@ PHP版本`5.6.40`
 # 其他
 
 - composer([2.2.x](https://getcomposer.org/doc/00-intro.md#system-requirements "A long-term-support version (2.2.x) still offers support for PHP 5.3.2+ in case you are stuck with a legacy PHP version."))
+- git

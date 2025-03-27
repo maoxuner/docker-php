@@ -8,6 +8,7 @@ LABEL org.opencontainers.image.authors="maoxuner@126.com"
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tencent.com/g' /etc/apk/repositories
 RUN set -ex; \
     apk add --no-cache \
+        git \
         postgresql-libs postgresql-dev \
         libzip libzip-dev bzip2 bzip2-dev \
         libjpeg-turbo libjpeg-turbo-dev libpng freetype freetype-dev \
