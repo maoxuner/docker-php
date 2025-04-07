@@ -14,6 +14,7 @@ PHP版本`8.2.28`
 - zip
 - bz2
 - gd
+- exif
 - sockets
 - intl
 - bcmath

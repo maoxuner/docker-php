@@ -20,7 +20,7 @@ RUN set -ex; \
         mysqli pdo_mysql \
         pdo_pgsql \
         zip bz2 \
-        gd \
+        gd exif \
         intl; \
     apk del linux-headers  \
         icu-dev \

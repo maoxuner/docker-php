@@ -14,6 +14,7 @@ PHP版本`7.4.33`
 - zip
 - bz2
 - gd
+- exif
 - sockets
 - intl
 - bcmath
