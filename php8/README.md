@@ -1,11 +1,11 @@
 # 定制PHP
 
-PHP版本`8.2.28`
+PHP版本`8.2.29`
 
 # PHP扩展
 
 - redis(6.2.0)
-- mongodb(1.21.0)
+- mongodb(2.1.1)
 - opcache
 - pcntl
 - mysqli
