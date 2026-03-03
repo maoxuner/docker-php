@@ -1,0 +1,55 @@
+version: 3
+
+vars:
+  repo: registry.cn-shanghai.aliyuncs.com/maoxuner/php
+  vers:
+    - 5.6.40
+    - 7.4.33
+    - 8.2.30
+  cri:
+    sh: command -v podman || command -v docker
+
+tasks:
+  build:
+    deps:
+      - for: { var: vers }
+        task: build:image
+        vars:
+          version: "{{.ITEM}}"
+
+  build:image:
+    requires:
+      vars: [version]
+    vars:
+      workdir: "php{{ index (splitList \".\" .version) 0 }}"
+    dir: "{{.workdir}}"
+    cmds:
+      - for: [cli-alpine, fpm-alpine]
+        cmd: "{{.cri}} build --tag {{.repo}}:{{.version}}-{{.ITEM}} --build-arg=PHP_TAG={{.version}}-{{.ITEM}} ."
+
+  deploy:
+    deps:
+      - for: { var: vers }
+        task: deploy:image
+        vars:
+          version: "{{.ITEM}}"
+
+  deploy:image:
+    prompt: "Are you sure to deploy {{.version}}?"
+    requires:
+      vars: [version]
+    cmds:
+      - for: [cli-alpine, fpm-alpine]
+        cmd: "{{.cri}} push {{.repo}}:{{.version}}-{{.ITEM}}"
+    deps:
+      - task: build:image
+        vars:
+          version: "{{.version}}"
+
+  clean:
+    prompt: Are you sure to remove all images?
+    cmds:
+      - for: { var: vers }
+        cmd: "{{.cri}} rmi -f {{.repo}}:{{.ITEM}}-cli-alpine"
+      - for: { var: vers }
+        cmd: "{{.cri}} rmi -f {{.repo}}:{{.ITEM}}-fpm-alpine"
