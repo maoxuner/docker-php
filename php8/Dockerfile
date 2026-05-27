@@ -29,7 +29,7 @@ RUN set -ex; \
         postgresql-dev
 
 ARG REDIS_VERSION=6.3.0
-ARG MONGODB_VERSION=2.1.4
+ARG MONGODB_VERSION=2.3.3
 RUN set -ex; \
     apk add --no-cache $PHPIZE_DEPS openssl-dev; \
     pecl install redis-${REDIS_VERSION}; \

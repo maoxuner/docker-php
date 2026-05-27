@@ -4,7 +4,7 @@ PHP版本`7.4.33`
 
 # PHP扩展
 
-- redis(6.2.0)
+- redis(6.3.0)
 - mongodb([1.20.1](https://www.mongodb.com/zh-cn/docs/drivers/php-drivers/#compatibility "ext + lib 1.20"))
 - opcache
 - pcntl
