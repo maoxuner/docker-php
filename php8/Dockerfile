@@ -5,7 +5,7 @@ FROM php:${PHP_TAG}
 
 LABEL org.opencontainers.image.authors="maoxuner@126.com"
 
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.cernet.edu.cn/g' /etc/apk/repositories
 RUN set -ex; \
     apk add --no-cache \
         git \
